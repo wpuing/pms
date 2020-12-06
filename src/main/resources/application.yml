@@ -1,0 +1,58 @@
+server:
+  port: 8380
+  ##端口号
+spring:
+    ##基本配置
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/pms_dev?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+      type: com.alibaba.druid.pool.DruidDataSource 
+      username: root
+      password: root
+    ##mvc
+#    mvc: 
+#      static-path-pattern: /static/**
+#    resources:
+#       static-locations:
+#          - classpath:/static/
+#          - file:D:\\Code space\\Java\\Test\\file\\sm
+   
+logging:
+  level:
+    root: warn
+    com.wyz.pms.core.mapper: trace
+    ##trace最低级别日志
+  pattern:
+    console: '%p%m%n'
+## 逻辑删除配置
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      ## 未删除
+      logic-delete-value: 1
+      ##已删除
+      table-underline: true
+      ## 默认true，表名是否使用驼峰转下划线命名,只对表名生效
+  mapper-locations:
+    - mappers/*
+  ##config-location: classpath:mybatis-config.xml
+  type-aliases-package: com.wyz.pms.core.pojo
+  ##mapper实体映射路径
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+    ##邮件
+    ##mail:
+      ##host: smtp.qq.com
+      ##username: 865230476@qq.com
+      ##password: 
+      ##default-encoding: UTF-8
+    ##pagehelper分页插件
+
+
+      
+##mail.fromMail.addr: 865230476@qq.com
+     
+##login  http://localhost:8182/doLogin
