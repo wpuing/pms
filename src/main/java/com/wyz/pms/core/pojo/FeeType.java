@@ -3,6 +3,7 @@ package com.wyz.pms.core.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class FeeType implements Serializable {
@@ -15,6 +16,7 @@ public class FeeType implements Serializable {
     /**
      * 类型名
      */
+    @NotNull(message = "收费类型名不能为空")
     private String name;
 
     /**

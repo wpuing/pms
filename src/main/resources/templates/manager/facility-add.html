@@ -9,18 +9,18 @@
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<link rel="Bookmark" href="favicon.ico" >
 	<link rel="Shortcut Icon" href="favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="../assets/static/h-ui/css/H-ui.min.css" />
-	<link rel="stylesheet" type="text/css" href="../assets/static/h-ui.admin/css/H-ui.admin.css" />
-	<link rel="stylesheet" type="text/css" href="../assets/lib/Hui-iconfont/1.0.8/iconfont.css" />
-	<link rel="stylesheet" type="text/css" href="../assets/static/h-ui.admin/skin/default/skin.css" id="skin" />
-	<link rel="stylesheet" type="text/css" href="../assets/static/h-ui.admin/css/style.css" />
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
 	<!--/meta 作为公共模版分离出去-->
 
 <title>添加设施</title>
 </head>
 <body>
 <article class="cl pd-20">
-	<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+	<form class="form form-horizontal" id="form-admin-add">
 		<input type="hidden" name="id" value="0" />
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
@@ -37,60 +37,65 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">地点：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="per" cols="" rows="" class="textarea"  placeholder="设施的地点...100个字符以内" dragonfly="true" onKeyUp="textarealength(this,100)"></textarea>
+				<textarea name="site" cols="" rows="" class="textarea"  placeholder="设施的地点...200个字符以内" dragonfly="true" onKeyUp="textarealength(this,200)"></textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+
+				<div class="radio-box">
+					<input  name="status" type="radio" id="sex-1" value="未使用" checked>
+					<label for="sex-1">未使用</label>
+				</div>
+				<div class="radio-box">
+					<input  type="radio" id="sex-2" name="status" value="已使用">
+					<label for="sex-2">已使用</label>
+				</div>
 			</div>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" onclick="insert()" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
 </article>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
-<script type="text/javascript" src="lib/layer/2.4/layer.js"></script> 
-<script type="text/javascript" src="static/h-ui/js/H-ui.js"></script> 
-<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script> 
+<script type="text/javascript" th:src="@{/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
 
 <!--/_footer /作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
-<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+<script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
-$(function(){
-	$('.skin-minimal input').iCheck({
-		checkboxClass: 'icheckbox-blue',
-		radioClass: 'iradio-blue',
-		increaseArea: '20%'
-	});
-	
-	$("#form-admin-add").validate({
-		rules:{
-			name:{
-				required:true,
-				minlength:2,
-				maxlength:16
-			},
-			count:{
-				required:true,
-			},
-		},
-		onkeyup:false,
-		focusCleanup:true,
-		success:"valid",
-		submitHandler:function(form){
-			$(form).ajaxSubmit();
-			var index = parent.layer.getFrameIndex(window.name);
-			parent.$('.btn-refresh').click();
-			parent.layer.close(index);
-		}
-	});
-});
+	function insert() {
+		//得到表单数据，序列化表单
+		var owner = $("#form-admin-add").serialize();
+		//使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
+		$.post("http://localhost:8380/admin/facility/add", owner, function (data) {
+			//回调回来的数据data
+			if (data.code == '200') {
+				alert('响应码：' + data.code + " ,消息：" + data.message);
+				var index = parent.layer.getFrameIndex(window.name);
+				//刷新父窗口
+				window.parent.location.reload();
+				//关闭弹框
+				parent.layer.close(index);
+			} else {
+				alert('添加失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
+			}
+		});
+	}
+
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

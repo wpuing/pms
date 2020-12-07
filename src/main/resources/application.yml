@@ -10,11 +10,11 @@ spring:
       username: root
       password: root
     ##mvc
-#    mvc: 
-#      static-path-pattern: /static/**
-#    resources:
-#       static-locations:
-#          - classpath:/static/
+    mvc:
+      static-path-pattern: /static/**
+    resources:
+       static-locations:
+          - classpath:/static/
 #          - file:D:\\Code space\\Java\\Test\\file\\sm
    
 logging:

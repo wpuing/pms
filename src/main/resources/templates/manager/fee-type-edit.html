@@ -17,73 +17,28 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>添加员工</title>
+    <title>编辑员工</title>
 </head>
 <body>
 <article class="cl pd-20">
-    <!--action="/emp/add" method="post"-->
-    <form class="form form-horizontal " id="form-admin-add">
-        <input type="hidden" name="id" id="id" value=""/>
+    <form class="form form-horizontal" id="form-admin-add">
+        <input type="hidden" name="id" id="id" th:field="${feeType.id}"/>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账号：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="account" name="account">
+                <input type="text" class="input-text" th:field="${feeType.name}" placeholder="" id="name" name="name">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+            <label class="form-label col-xs-4 col-sm-3">备注：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off" placeholder="密码" id="password"
-                       name="password">
+                <textarea name="remark" cols="" rows="" th:field="${feeType.remark}" class="textarea"  placeholder="200个字符以内" dragonfly="true" onKeyUp="textarealength(this,200)"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
             </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
-                       name="password2">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="" id="name" name="name">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input name="sex" type="radio" id="sex-1" value="女" checked>
-                    <label for="sex-1">男</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" id="sex-2" name="sex" value="女">
-                    <label for="sex-2">女</label>
-                </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色：</label>
-            <div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="roleId" size="1">
-					<option value="-1" selected>请选择角色</option>
-					<option value="0">管理员</option>
-					<option value="1">安保员</option>
-					<option value="2">清洁员</option>
-					<option value="3">维修员</option>
-				</select>
-				</span></div>
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-primary radius" onclick="insert()" type="button"
+                <input class="btn btn-primary radius" onclick="update()" type="button"
                        value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
@@ -103,11 +58,11 @@
 <script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
-    function insert() {
+    function update() {
         //得到表单数据，序列化表单
         var employee = $("#form-admin-add").serialize();
         //使用ajax post提交方式 ，默认json数据
-        $.post("http://localhost:8380/admin/emp/add", employee, function (data) {
+        $.post("http://localhost:8380/admin/feeType/update", employee, function (data) {
             //回调回来的数据data
             if (data.code == '200') {
                 alert('响应码：' + data.code + " ,消息：" + data.message);
@@ -117,10 +72,12 @@
                 //关闭弹框
                 parent.layer.close(index);
             } else {
-                alert('添加失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
+                alert('修改失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
             }
         });
     }
+
+
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

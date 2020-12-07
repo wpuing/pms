@@ -5,6 +5,8 @@ import com.wyz.pms.common.exception.ParameterException;
 import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.Result;
 import com.wyz.pms.common.util.ResultCode;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -65,6 +67,18 @@ public class ExceptionInterceptor {
 		return new Result()
 				.setCode(ResultCode.ACCESS_PERMISSION_ERROR)
 				.setMessage(e.getMessage());
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Result MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+		// 从异常对象中拿到ObjectError对象
+		System.out.println("捕获异常： ");
+		e.printStackTrace();
+		ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
+		// 然后提取错误提示信息进行返回
+		return new Result()
+				.setCode(ResultCode.INTERNAL_SERVER_ERROR)
+				.setMessage(objectError.getDefaultMessage());
 	}
 
 

@@ -2,7 +2,6 @@ package com.wyz.pms.core.controller.admin;
 
 import com.wyz.pms.common.util.PMSUtil;
 import com.wyz.pms.common.util.Result;
-import com.wyz.pms.core.pojo.Employee;
 import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
  *  @Date: 2020/12/6 15:03
  *  @Description: 业主控制器
  */
-@RequestMapping("/owner")
+@RequestMapping("/admin/owner")
 @Controller
 public class OwnerController {
 

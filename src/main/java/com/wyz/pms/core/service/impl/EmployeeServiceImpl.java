@@ -60,7 +60,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (PUINGUtil.isEmpty(employee.getPhone())) {//手机号
                 wrapper.like(Employee::getPhone, employee.getPhone());
             }
-            System.out.println("角色id： "+employee.getRoleId());
             if (employee.getRoleId()!=null && employee.getRoleId()>=0) {//角色
                 wrapper.eq(Employee::getRoleId, employee.getRoleId());
             }

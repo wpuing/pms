@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>业主列表 </title>
+    <title>收费类型列表 </title>
 </head>
 <body>
 <!--_header 作为公共模版分离出去-->
@@ -33,74 +33,62 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><a href="index.html"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
         <span class="c-gray en">&gt;</span>
-        业主管理
+        收费类型管理
         <span class="c-gray en">&gt;</span>
-        业主列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
-                href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+        收费类型列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+                  href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            <form action="/admin/owner/list" method="post">
+            <form action="/admin/feeType/list" method="post">
                 <div class="text-c">
-                    注册日期：
-                    <input name="startTime" type="text"
-                           onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})" id="datemin"
-                           class="input-text Wdate" style="width:120px;">
-                    -
-                    <input name="endTime" type="text"
-                           onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})" id="datemax"
-                           class="input-text Wdate" style="width:120px;">
-                    <input type="text" class="input-text" style="width:150px" placeholder="手机号" id="phone" name="phone">
-                    <input type="text" class="input-text" style="width:120px" placeholder="名称" id="name" name="name">
-                    <span class="select-box" style="width:90px">
-				<select class="select" name="sex" size="1">
-					<option value="" selected>性别</option>
-					<option value="男">男</option>
-					<option value="女">女</option>
-				</select>
-				</span>
-                    <span class="select-box" style="width:75px">
-				<select class="select" name="sort" size="1">
-					<option value="0" selected>倒序</option>
-					<option value="1">正序</option>
-				</select>
+                    <input type="text" class="input-text" style="width:120px" placeholder="名称" id="name"
+                           name="name">
+                    <input type="text" class="input-text" style="width:120px" placeholder="备注" id="remark"
+                           name="remark">
+                <span class="select-box" style="width:75px">
+				    <select class="select" name="sort" size="1">
+					    <option value="0" selected>倒序</option>
+					    <option value="1">正序</option>
+				    </select>
 				</span>
                     <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
                     </button>
                 </div>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
-                <span class="l"> <a href="javascript:;" onclick="admin_add('添加业主','/admin/owner/doAdd','800','500')"
-                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加业主</a> </span>
+                <span class="l"> <a href="javascript:;" onclick="admin_add('添加收费类型','/admin/feeType/doAdd','800','500')"
+                                    class="btn btn-primary radius"><i
+                        class="Hui-iconfont">&#xe600;</i> 添加收费类型</a> </span>
                 <span class="r">共有数据：<strong>54</strong> 条</span>
             </div>
             <table class="table table-border table-bordered table-bg">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="9">业主列表</th>
+                    <th scope="col" colspan="9">收费类型列表</th>
                 </tr>
                 <tr class="text-c">
-
                     <th width="40">编号</th>
-                    <th width="150">手机号</th>
-                    <th width="90">姓名</th>
-                    <th width="50">性别</th>
-                    <th width="130">注册时间</th>
+                    <th width="150">类型名</th>
+                    <th width="90">备注</th>
                     <th width="100">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="owner:${ownerList}" class="text-c">
-                    <td th:text="${owner.id}"></td>
-                    <td th:text="${owner.phone}"></td>
-                    <td th:text="${owner.name}"></td>
-                    <td th:text="${owner.sex}"></td>
-                    <td th:text="${#temporals.format(owner.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td class="td-manage"><a title="编辑" href="javascript:;"
-                                             th:onclick="|javascript:admin_edit('员工编辑','/admin/owner/doUpdate?id=${owner.id}','1','800','500')|" class="ml-5"
-                                             style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a
-                            title="删除" href="javascript:;" th:onclick="|javascript:admin_del(this,'${owner.id}')|" class="ml-5"
-                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                <!--@thymesVar id="empList" type="List<com.wyz.pms.core.pojo.Employee>"-->
+                <tr th:each="feeType:${feeTypeList}" class="text-c">
+                    <td th:text="${feeType.id}"></td>
+                    <td th:text="${feeType.name}"></td>
+                    <td th:text="${feeType.remark}"></td>
+                    <td class="td-manage"><a
+                            title="编辑" href="javascript:;"
+                            th:onclick="|javascript:admin_edit('收费类型编辑','/admin/feeType/doUpdate?id=${feeType.id}','1','800','500')|"
+                            class="ml-5"
+                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="删除" href="javascript:;" th:onclick="|javascript:admin_del(this,'${feeType.id}')|"
+                           class="ml-5" style="text-decoration:none">
+                            <i
+                                    class="Hui-iconfont">&#xe6e2;</i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -119,6 +107,10 @@
 <script type="text/javascript" th:src="@{/assets/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
 <script type="text/javascript" th:src="@{/assets/lib/datatables/1.10.15/jquery.dataTables.min.js}"></script>
 <script type="text/javascript" th:src="@{/assets/lib/laypage/1.2/laypage.js}"></script>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+
 <script type="text/javascript">
     /*
         参数解释：
@@ -131,6 +123,7 @@
     /*管理员-增加*/
     function admin_add(title, url, w, h) {
         layer_show(title, url, w, h);
+
     }
 
     /*管理员-删除*/
@@ -139,7 +132,7 @@
             //此处请求后台程序，下方是成功后的前台处理……
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8380/owner/delete?id=" + id,
+                url: "http://localhost:8380/admin/feeType/delete?id=" + id,
                 data: null,
                 success: function (result) {
                     if (result.code == 200) {
@@ -160,7 +153,6 @@
     function admin_edit(title, url, id, w, h) {
         layer_show(title, url, w, h);
     }
-
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

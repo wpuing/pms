@@ -21,7 +21,7 @@ import java.util.List;
  * @Date: 2020/12/1 22:34
  * @Description: 员工控制类
  */
-@RequestMapping("/emp")
+@RequestMapping("/admin/emp")
 @Controller
 public class EmployeeController {
 

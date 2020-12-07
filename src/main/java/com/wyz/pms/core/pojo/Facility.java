@@ -1,8 +1,11 @@
 package com.wyz.pms.core.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -17,11 +20,13 @@ public class Facility implements Serializable {
     /**
      * 设施名
      */
+    @NotNull(message = "设施名称不能为空")
     private String name;
 
     /**
      * 数量
      */
+    @NotNull(message = "设施数量不能为空")
     private Integer count;
 
     /**
@@ -32,6 +37,7 @@ public class Facility implements Serializable {
     /**
      * 使用日期
      */
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private LocalDateTime startTime;
 
     /**
