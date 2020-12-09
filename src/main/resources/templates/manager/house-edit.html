@@ -21,40 +21,65 @@
 <body>
 <article class="cl pd-20">
 	<form class="form form-horizontal" id="form-admin-add">
+		<input type="hidden" name="id" id="id" th:field="${house.id}"/>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>编号：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="number" name="number">
+				<input type="text" class="input-text" th:field="${house.number}" placeholder="" id="number" name="number">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格/元：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>单元：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="price" name="price">
+				<input type="text" class="input-text" th:field="${house.unitSum}" placeholder="" id="unitSum" name="unitSum">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>楼层：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" th:field="${house.layer}" placeholder="" id="layer" name="layer">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" th:field="${house.houseType}" placeholder="" id="houseType" name="houseType">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>面积/平方米：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" th:field="${house.area}" placeholder="" id="area" name="area">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>业主编号：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" placeholder="" name="ownerId" id="ownerId">
+				<input type="text" class="input-text" th:field="${house.ownerId}" placeholder="" name="ownerId" id="ownerId">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>业主编号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" th:field="${house.ownerName}" placeholder="" name="ownerName" id="ownerName">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否售出：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input  name="status" type="radio" id="sex-1" value="1">
+					<input th:checked="${house.status} eq '1'" name="status" type="radio" id="sex-1" value="1">
 					<label for="sex-1">未售出</label>
 				</div>
 				<div class="radio-box">
-					<input  type="radio" id="sex-2" name="status" value="2">
+					<input th:checked="${house.status} eq '2'" type="radio" id="sex-2" name="status" value="2">
 					<label for="sex-2">已售出</label>
 				</div>
 			</div>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input class="btn btn-primary radius" onclick="insert()" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input class="btn btn-primary radius" onclick="update()" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
@@ -73,11 +98,11 @@
 <script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
-	function insert() {
+	function update() {
 		//得到表单数据，序列化表单
 		var owner = $("#form-admin-add").serialize();
 		//使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
-		$.post("http://localhost:8380/admin/parking/add", owner, function (data) {
+		$.post("http://localhost:8380/admin/house/update", owner, function (data) {
 			//回调回来的数据data
 			if (data.code == '200') {
 				alert('响应码：' + data.code + " ,消息：" + data.message);

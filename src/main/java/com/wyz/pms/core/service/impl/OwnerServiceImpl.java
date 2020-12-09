@@ -2,9 +2,10 @@ package com.wyz.pms.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.wyz.pms.common.exception.ParameterException;
+import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.core.mapper.OwnerMapper;
-import com.wyz.pms.core.pojo.Employee;
 import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,37 @@ public class OwnerServiceImpl implements OwnerService {
     public Owner findById(Integer id) {
         PUINGUtil.notNullByZero(id, "员工编号不能为空或者小于等于0");
         return ownerMapper.selectById(id);
+    }
+
+    @Override
+    public Owner findByPhone(String phone,String password) {
+        Owner owner = new Owner();
+        LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
+        PUINGUtil.isEmpty("业主管理：手机号不能为空！！！",phone);
+        PUINGUtil.isEmpty("业主管理：密码不能为空！！！",password);
+        wrapper.eq(Owner::getName,phone);
+        List<Owner> owners = ownerMapper.selectList(wrapper);
+        if(owners==null || owners.size()<=0){
+            throw new ParameterException("该手机号查询不到业主信息：null ,手机号:"+phone);
+        }
+        for (Owner o: owners) {
+            if(o.getPassword().equals(password)){
+                owner=o;
+            }
+        }
+        return owner;
+    }
+
+    @Override
+    public Owner findByName(String name) {
+        LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
+        PUINGUtil.isEmpty("业主管理：查询的业主名不能为空！！！",name);
+        wrapper.eq(Owner::getName,name);
+        Owner owner = ownerMapper.selectOne(wrapper);
+        if(owner==null){
+            throw new ParameterException("该姓名查询不到业主信息：null ,姓名:"+name);
+        }
+        return owner;
     }
 
     @Override

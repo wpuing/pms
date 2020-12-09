@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>车位列表 </title>
+    <title>房产列表 </title>
 </head>
 <body>
 <!--_header 作为公共模版分离出去-->
@@ -32,82 +32,94 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><a href="index.html"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
         <span class="c-gray en">&gt;</span>
-        车位管理
+        房产管理
         <span class="c-gray en">&gt;</span>
-        车位列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+        房产列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                 href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-			<form action="/admin/parking/list" method="post">
-            <div class="text-c">
-                编号：
-                <input type="text" class="input-text" style="width:120px" placeholder="车位号" id="number" name="number">
-                业主编号：
-                <input type="text" class="input-text" style="width:120px" placeholder="业主编号" id="ownerId"
-                       name="ownerId">
-                起始价格：
-                <input type="text" class="input-text" style="width:150px" placeholder="开始" id="startPrice"
-                       name="startPrice">
-                -
-                <input type="text" class="input-text" style="width:150px" placeholder="结束" id="endPrice"
-                       name="endPrice">
-                <span class="select-box" style="width:90px">
+            <form action="/admin/house/list" method="post">
+                <div class="text-c">
+                    <input type="text" class="input-text" style="width:120px" placeholder="房产号" id="number"
+                           name="number">
+
+                    <input type="text" class="input-text" style="width:80px" placeholder="单元" id="unitSum"
+                           name="unitSum">
+                    <input type="text" class="input-text" style="width:70px" placeholder="楼层" id="layer"
+                           name="layer">
+                    <input type="text" class="input-text" style="width:120px" placeholder="类型" id="houseType"
+                           name="houseType">
+                    <input type="text" class="input-text" style="width:120px" placeholder="业主编号" id="ownerId"
+                           name="ownerId">
+                    <input type="text" class="input-text" style="width:130px" placeholder="开始" id="startArea"
+                           name="startPrice">
+                    -
+                    <input type="text" class="input-text" style="width:130px" placeholder="结束" id="endArea"
+                           name="endPrice">
+                    <span class="select-box" style="width:90px">
 				<select class="select" name="status" size="1">
 					<option value="">是否出售</option>
-					<option value="1">未出售</option>
-					<option value="2">已出售</option>
+					<option value="1">待售</option>
+					<option value="2">已售</option>
 				</select>
 				</span>
-                <span class="select-box" style="width:75px">
+                    <span class="select-box" style="width:75px">
 				<select class="select" name="sort" size="1">
 					<option value="0" selected>倒序</option>
 					<option value="1">正序</option>
 				</select>
 				</span>
-                <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
-                </button>
-            </div>
-			</form>
+                    <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
+                    </button>
+                </div>
+            </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
-                <span class="l"> <a href="javascript:;" onclick="admin_add('添加车位','/admin/parking/doAdd','800','500')"
-                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加车位</a> </span>
+                <span class="l"> <a href="javascript:;" onclick="admin_add('添加房产','/admin/house/doAdd','800','500')"
+                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加房产</a> </span>
                 <span class="r">共有数据：<strong>54</strong> 条</span>
             </div>
             <table class="table table-border table-bordered table-bg">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="9">车位列表</th>
+                    <th scope="col" colspan="10">房产列表</th>
                 </tr>
                 <tr class="text-c">
                     <th width="40">编号</th>
-                    <th width="150">车位号</th>
-                    <th width="80">价格/元</th>
-                    <th width="40">业主编号</th>
+                    <th width="90">房产号</th>
+                    <th width="80">单元</th>
+                    <th width="40">楼层</th>
+                    <th width="150">房产类型</th>
+                    <th width="100">面积/平方米</th>
+                    <th width="60">业主编号</th>
                     <th width="90">业主名</th>
                     <th width="50">是否出售</th>
-                    <th width="100">操作</th>
+                    <th width="90">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="parking:${parkingList}" class="text-c">
-                    <td th:text="${parking.id}"></td>
-                    <td th:text="${parking.number}"></td>
-                    <td th:text="${parking.price}"></td>
-                    <td th:text="${parking.ownerId}"></td>
-                    <td th:text="${parking.ownerName}"></td>
-					<td th:switch="${parking.status}">
-						<span th:case="'1'">未出售</span>
-						<span th:case="'2'">已出售</span>
-					</td>
-                    <td class="td-manage"><a title="编辑" href="javascript:;"
-											 th:onclick="|javascript:admin_edit('车位编辑','/admin/parking/doUpdate?id=${parking.id}','1','800','500')|"
+                    <tr th:each="house:${houseList}" class="text-c">
+                        <td th:text="${house.id}"></td>
+                        <td th:text="${house.number}"></td>
+                        <td th:text="${house.unitSum}"></td>
+                        <td th:text="${house.layer}"></td>
+                        <td th:text="${house.houseType}"></td>
+                        <td th:text="${house.area}"></td>
+                        <td th:text="${house.ownerId}"></td>
+                        <td th:text="${house.ownerName}"></td>
+                        <td th:switch="${house.status}">
+                            <span th:case="'1'">待售</span>
+                            <span th:case="'2'">已售</span>
+                        </td>
+                        <td class="td-manage"><a title="编辑" href="javascript:;"
+                                             th:onclick="|javascript:admin_edit('房产编辑','/admin/house/doUpdate?id=${house.id}','1','800','500')|"
                                              class="ml-5" style="text-decoration:none"><i
-                            class="Hui-iconfont">&#xe6df;</i></a> <a title="删除" th:onclick="|javascript:admin_del(this,'${parking.id}')|"
+                            class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"
+                                                                     th:onclick="|javascript:admin_del(this,'${house.id}')|"
                                                                      onclick="admin_del(this,'1')" class="ml-5"
                                                                      style="text-decoration:none"><i
                             class="Hui-iconfont">&#xe6e2;</i></a></td>
-                </tr>
+                    </tr>
                 </tbody>
             </table>
         </article>
@@ -143,22 +155,22 @@
     function admin_del(obj, id) {
         layer.confirm('确认要删除吗？', function (index) {
             //此处请求后台程序，下方是成功后的前台处理……
-			$.ajax({
-				type: "POST",
-				url: "http://localhost:8380/admin/parking/delete?id=" + id,
-				data: null,
-				success: function (result) {
-					if (result.code == 200) {
-						$(obj).parents("tr").remove();
-						layer.msg('已删除! code=' + result.code, {icon: 1, time: 1000});
-					} else {
-						layer.msg('删除失败! code=' + result.code, {icon: 1, time: 1000});
-					}
-				},
-				error: function (e) {
-					layer.msg('删除!失败 m=' + e.code, {icon: 1, time: 1000});
-				}
-			});
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8380/admin/house/delete?id=" + id,
+                data: null,
+                success: function (result) {
+                    if (result.code == 200) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除! code=' + result.code, {icon: 1, time: 1000});
+                    } else {
+                        layer.msg('删除失败! code=' + result.code, {icon: 1, time: 1000});
+                    }
+                },
+                error: function (e) {
+                    layer.msg('删除!失败 m=' + e.code, {icon: 1, time: 1000});
+                }
+            });
         });
     }
 
@@ -166,7 +178,6 @@
     function admin_edit(title, url, id, w, h) {
         layer_show(title, url, w, h);
     }
-
 
 
 </script>

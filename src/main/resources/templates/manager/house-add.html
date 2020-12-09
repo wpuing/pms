@@ -28,9 +28,27 @@
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>价格/元：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>单元：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="price" name="price">
+				<input type="text" class="input-text" value="" placeholder="" id="unitSum" name="unitSum">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>楼层：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="layer" name="layer">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>类型：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="houseType" name="houseType">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>面积/平方米：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="area" name="area">
 			</div>
 		</div>
 		<div class="row cl">
@@ -44,11 +62,11 @@
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
 					<input  name="status" type="radio" id="sex-1" value="1">
-					<label for="sex-1">未售出</label>
+					<label for="sex-1">待出</label>
 				</div>
 				<div class="radio-box">
 					<input  type="radio" id="sex-2" name="status" value="2">
-					<label for="sex-2">已售出</label>
+					<label for="sex-2">已出</label>
 				</div>
 			</div>
 		</div>
@@ -77,7 +95,7 @@
 		//得到表单数据，序列化表单
 		var owner = $("#form-admin-add").serialize();
 		//使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
-		$.post("http://localhost:8380/admin/parking/add", owner, function (data) {
+		$.post("http://localhost:8380/admin/house/add", owner, function (data) {
 			//回调回来的数据data
 			if (data.code == '200') {
 				alert('响应码：' + data.code + " ,消息：" + data.message);

@@ -1,11 +1,13 @@
 package com.wyz.pms.core.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Repair implements Serializable {
     /**
@@ -17,11 +19,19 @@ public class Repair implements Serializable {
     /**
      * 维修物品
      */
+    @NotNull(message = "维修物品名不能为空")
     private String item;
+
+    /**
+     * 地点
+     */
+    @NotNull(message = "地点不能为空")
+    private String site;
 
     /**
      * 原因
      */
+    @NotNull(message = "维修原因不能为空")
     private String reason;
 
     /**
@@ -37,17 +47,20 @@ public class Repair implements Serializable {
     /**
      * 状态（0未受理 1已受理(未解决) 2已解决）
      */
+    @NotNull(message = "状态不能为空")
     private String status;
 
     /**
      * 报修人id
      */
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private Integer ownerId;
 
     /**
      * 处理人
      */
-    private Integer employeeId;
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
+    private String employeeName;
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +78,14 @@ public class Repair implements Serializable {
 
     public void setItem(String item) {
         this.item = item == null ? null : item.trim();
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
 
     public String getReason() {
@@ -107,12 +128,12 @@ public class Repair implements Serializable {
         this.ownerId = ownerId;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     @Override
@@ -123,12 +144,13 @@ public class Repair implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", item=").append(item);
+        sb.append(", site=").append(site);
         sb.append(", reason=").append(reason);
         sb.append(", createTime=").append(createTime);
         sb.append(", resolveTime=").append(resolveTime);
         sb.append(", status=").append(status);
         sb.append(", ownerId=").append(ownerId);
-        sb.append(", employeeId=").append(employeeId);
+        sb.append(", employeeName=").append(employeeName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

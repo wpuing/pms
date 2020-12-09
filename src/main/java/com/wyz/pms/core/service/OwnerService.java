@@ -14,6 +14,10 @@ public interface OwnerService {
 
     Owner findById(Integer id);
 
+    Owner findByPhone(String phone,String password);
+
+    Owner findByName(String name);
+
     List<Owner> find(String startTime,String endTime,Owner owner,Integer sort);
 
     int insert(Owner owner);
@@ -21,6 +25,8 @@ public interface OwnerService {
     int update(Owner owner);
 
     int delete(Integer id);
+
+
 
 
 }
