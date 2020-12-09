@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>房产列表 </title>
+    <title>收费列表 </title>
 </head>
 <body>
 <!--_header 作为公共模版分离出去-->
@@ -32,94 +32,107 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><a href="index.html"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
         <span class="c-gray en">&gt;</span>
-        房产管理
+        收费管理
         <span class="c-gray en">&gt;</span>
-        房产列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+        收费列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                 href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            <form action="/admin/house/list" method="post">
+            <form action="/admin/fee/list" method="post">
                 <div class="text-c">
-                    <input type="text" class="input-text" style="width:120px" placeholder="房产号" id="number"
-                           name="number">
-
-                    <input type="text" class="input-text" style="width:80px" placeholder="单元" id="unitSum"
-                           name="unitSum">
-                    <input type="text" class="input-text" style="width:70px" placeholder="楼层" id="layer"
-                           name="layer">
-                    <input type="text" class="input-text" style="width:120px" placeholder="类型" id="houseType"
-                           name="houseType">
+                    <input type="text" class="input-text" style="width:120px" placeholder="编号" id="id"
+                           name="id">
+                    <span class="select-box" style="width:120px">
+                        <select class="select" name="feeTypeId" size="1">
+                            <option value="" selected>收费类型</option>
+                            <option th:each="feeType:${feeTypeList}" th:value="${feeType.id}" th:text="${feeType.name}"></option>
+                        </select>
+                    </span>
+                    <input type="text" class="input-text" style="width:120px" placeholder="支付方式" id="method"
+                           name="method">
+                    <span class="select-box" style="width:90px">
+                        <select class="select" name="status" size="1">
+                            <option value="">状态</option>
+                            <option value="1">未缴费</option>
+                            <option value="2">已缴费</option>
+                        </select>
+				    </span>
                     <input type="text" class="input-text" style="width:120px" placeholder="业主编号" id="ownerId"
                            name="ownerId">
-                    <input type="text" class="input-text" style="width:130px" placeholder="开始" id="startArea"
+                    <input type="text" class="input-text" style="width:130px" placeholder="处理人" id="operatorId"
+                           name="operatorId">
+                    <span class="select-box" style="width:75px">
+                        <select class="select" name="sort" size="1">
+                            <option value="" selected>排序</option>
+                            <option value="0">倒序</option>
+                            <option value="1">正序</option>
+                        </select>
+				    </span>
+                    <br/>
+                    <br/>
+                    报修日期：
+                    <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                           id="datemin"
+                           class="input-text Wdate" style="width:120px;" name="startTime">
+                    -
+                    <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                           id="datemax" class="input-text Wdate" style="width:120px;" name="endTime">
+                    起始价格：
+                    <input type="text" class="input-text" style="width:150px" placeholder="开始" id="startPrice"
                            name="startPrice">
                     -
-                    <input type="text" class="input-text" style="width:130px" placeholder="结束" id="endArea"
+                    <input type="text" class="input-text" style="width:150px" placeholder="结束" id="endPrice"
                            name="endPrice">
-                    <span class="select-box" style="width:90px">
-				<select class="select" name="status" size="1">
-					<option value="">是否出售</option>
-					<option value="1">待售</option>
-					<option value="2">已售</option>
-				</select>
-				</span>
-                    <span class="select-box" style="width:75px">
-				<select class="select" name="sort" size="1">
-					<option value="0" selected>倒序</option>
-					<option value="1">正序</option>
-				</select>
-				</span>
                     <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
                     </button>
+
                 </div>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
-                <span class="l"> <a href="javascript:;" onclick="admin_add('添加房产','/admin/house/doAdd','800','500')"
-                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加房产</a> </span>
+                <span class="l"> <a href="javascript:;" onclick="admin_add('添加收费','/admin/fee/doAdd','800','500')"
+                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加收费</a> </span>
                 <span class="r">共有数据：<strong>54</strong> 条</span>
             </div>
             <table class="table table-border table-bordered table-bg">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="10">房产列表</th>
+                    <th scope="col" colspan="9">维修列表</th>
                 </tr>
                 <tr class="text-c">
                     <th width="40">编号</th>
-                    <th width="90">房产号</th>
-                    <th width="80">单元</th>
-                    <th width="40">楼层</th>
-                    <th width="150">房产类型</th>
-                    <th width="100">面积/平方米</th>
-                    <th width="60">业主编号</th>
-                    <th width="90">业主名</th>
-                    <th width="50">是否出售</th>
-                    <th width="90">操作</th>
+                    <th width="90">收费类型</th>
+                    <th width="120">金额</th>
+                    <th width="120">缴费日期</th>
+                    <th width="140">缴费方式</th>
+                    <th width="100">状态</th>
+                    <th width="60">业主名</th>
+                    <th width="60">处理人</th>
+                    <th width="50">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="house:${houseList}" class="text-c">
-                        <td th:text="${house.id}"></td>
-                        <td th:text="${house.number}"></td>
-                        <td th:text="${house.unitSum}"></td>
-                        <td th:text="${house.layer}"></td>
-                        <td th:text="${house.houseType}"></td>
-                        <td th:text="${house.area}"></td>
-                        <td th:text="${house.ownerId}"></td>
-                        <td th:text="${house.ownerName}"></td>
-                        <td th:switch="${house.status}">
-                            <span th:case="'1'">待售</span>
-                            <span th:case="'2'">已售</span>
-                        </td>
-                        <td class="td-manage"><a title="编辑" href="javascript:;"
-                                             th:onclick="|javascript:admin_edit('房产编辑','/admin/house/doUpdate?id=${house.id}','1','800','500')|"
+                <tr th:each="fee:${feeList}" class="text-c">
+                    <td th:text="${fee.id}"></td>
+                    <td th:text="${fee.feeTypeName}"></td>
+                    <td th:text="${fee.money}"></td>
+                    <td th:text="${fee.payTime}"></td>
+                    <td th:text="${fee.method}"></td>
+                    <td th:switch="${fee.status}">
+                        <span th:case="'1'">未缴费</span>
+                        <span th:case="'2'">已缴费</span>
+                    </td>
+                    <td th:text="${fee.ownerName}"></td>
+                    <td th:text="${fee.operatorName}"></td>
+                    <td class="td-manage"><a title="编辑" href="javascript:;"
+                                             th:onclick="|javascript:admin_edit('收费编辑','/admin/fee/doUpdate?id=${fee.id}','1','800','500')|"
                                              class="ml-5" style="text-decoration:none"><i
                             class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"
-                                                                     th:onclick="|javascript:admin_del(this,'${house.id}')|"
+                                                                     th:onclick="|javascript:admin_del(this,'${fee.id}')|"
                                                                      onclick="admin_del(this,'1')" class="ml-5"
                                                                      style="text-decoration:none"><i
                             class="Hui-iconfont">&#xe6e2;</i></a></td>
-                    </tr>
+                </tr>
                 </tbody>
             </table>
         </article>
@@ -137,6 +150,8 @@
 <script type="text/javascript" th:src="@{/static/assets/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/lib/datatables/1.10.15/jquery.dataTables.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/lib/laypage/1.2/laypage.js}"></script>
+
+
 <script type="text/javascript">
     /*
         参数解释：
@@ -157,7 +172,7 @@
             //此处请求后台程序，下方是成功后的前台处理……
             $.ajax({
                 type: "POST",
-                url: "http://localhost:8380/admin/house/delete?id=" + id,
+                url: "http://localhost:8380/admin/fee/delete?id=" + id,
                 data: null,
                 success: function (result) {
                     if (result.code == 200) {

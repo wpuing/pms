@@ -1,38 +1,34 @@
-package com.wyz.pms.core.pojo;
+package com.wyz.pms.core.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Fee implements Serializable {
+public class FeeVo implements Serializable {
+
     /**
      * 收费id
      */
-    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
      * 收费类型id
      */
-    @NotNull(message = "收费类型不能为空")
     private Integer feeTypeId;
+
+    /**
+     * 收费类型名
+     */
+    private String feeTypeName;
 
     /**
      * 金额
      */
-    @NotNull(message = "金额不能为空")
     private BigDecimal money;
 
     /**
      * 缴费日期
      */
-    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private LocalDateTime payTime;
 
     /**
@@ -43,22 +39,27 @@ public class Fee implements Serializable {
     /**
      * 状态（2已缴费，1未缴费）
      */
-    @NotNull(message = "缴费状态不能为空")
     private Integer status;
 
     /**
      * 业主id
      */
-    @NotNull(message = "业主编号不能为空")
     private Integer ownerId;
+
+    /**
+     * 业主姓名
+     */
+    private String ownerName;
 
     /**
      * 操作员id
      */
-    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private Integer operatorId;
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * 操作员姓名
+     */
+    private String operatorName;
 
     public Integer getId() {
         return id;
@@ -74,6 +75,14 @@ public class Fee implements Serializable {
 
     public void setFeeTypeId(Integer feeTypeId) {
         this.feeTypeId = feeTypeId;
+    }
+
+    public String getFeeTypeName() {
+        return feeTypeName;
+    }
+
+    public void setFeeTypeName(String feeTypeName) {
+        this.feeTypeName = feeTypeName;
     }
 
     public BigDecimal getMoney() {
@@ -97,7 +106,7 @@ public class Fee implements Serializable {
     }
 
     public void setMethod(String method) {
-        this.method = method == null ? null : method.trim();
+        this.method = method;
     }
 
     public Integer getStatus() {
@@ -116,6 +125,14 @@ public class Fee implements Serializable {
         this.ownerId = ownerId;
     }
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
     public Integer getOperatorId() {
         return operatorId;
     }
@@ -124,22 +141,28 @@ public class Fee implements Serializable {
         this.operatorId = operatorId;
     }
 
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", feeTypeId=").append(feeTypeId);
-        sb.append(", money=").append(money);
-        sb.append(", payTime=").append(payTime);
-        sb.append(", method=").append(method);
-        sb.append(", status=").append(status);
-        sb.append(", ownerId=").append(ownerId);
-        sb.append(", operatorId=").append(operatorId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "FeeVo{" +
+                "id=" + id +
+                ", feeTypeId=" + feeTypeId +
+                ", feeTypeName=" + feeTypeName +
+                ", money=" + money +
+                ", payTime=" + payTime +
+                ", method='" + method + '\'' +
+                ", status=" + status +
+                ", ownerId=" + ownerId +
+                ", ownerName='" + ownerName + '\'' +
+                ", operatorId=" + operatorId +
+                ", operatorName='" + operatorName + '\'' +
+                '}';
     }
 }
