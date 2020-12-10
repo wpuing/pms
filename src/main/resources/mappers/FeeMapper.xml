@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyz.pms.core.mapper.FeeMapper">
+    <select id="selectFeeTypeMoney" resultType="com.wyz.pms.core.pojo.vo.FeeTypeMoneyVo">
+        SELECT f.fee_type_id,ft.name feeTypeName,o.id ownerId,o.name ownerName,sum(f.money) totalMoney
+        FROM owner o INNER JOIN  fee f ON o.id=f.owner_id
+        INNER JOIN fee_type ft ON f.fee_type_id=ft.id ${ew.customSqlSegment}
+    </select>
+    <select id="selectFeeDetailByOwner" resultType="com.wyz.pms.core.pojo.vo.FeeDetail">
+        SELECT f.id feeId,ft.name feeTypeName,f.money,f.pay_time payTime,f.method,o.name ownerName,e.name operatorName
+        FROM employee e INNER JOIN  fee f ON e.id=f.operator_id
+        INNER JOIN owner o ON f.owner_id=o.id
+        INNER JOIN fee_type ft ON f.fee_type_id=ft.id ${ew.customSqlSegment}
+    </select>
+</mapper>

@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>收费类型列表 </title>
+    <title>收费列表 </title>
 </head>
 <body>
 <!--_header 作为公共模版分离出去-->
@@ -29,67 +29,70 @@
 
 </div>
 <!--/_menu 作为公共模版分离出去-->
-
 <section class="Hui-article-box">
-    <nav class="breadcrumb"><a href="/index"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
+    <nav class="breadcrumb"><a href="index.html"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
         <span class="c-gray en">&gt;</span>
-        收费类型管理
+        收费管理
         <span class="c-gray en">&gt;</span>
-        收费类型列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+        业主收费查询 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                   href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
     </nav>
     <div class="Hui-article">
         <article class="cl pd-20">
-            <form action="/admin/feeType/list" method="post">
+            <form action="/admin/fee/ownerMoney" method="post">
                 <div class="text-c">
-                    <input type="text" class="input-text" style="width:120px" placeholder="名称" id="name"
-                           name="name">
-                    <input type="text" class="input-text" style="width:120px" placeholder="备注" id="remark"
-                           name="remark">
-                <span class="select-box" style="width:75px">
-				    <select class="select" name="sort" size="1">
-					    <option value="0" selected>倒序</option>
-					    <option value="1">正序</option>
-				    </select>
-				</span>
+                    收费类型：
+                    <span class="select-box" style="width:150px">
+                        <select class="select" name="feeTypeId" size="1">
+                            <option value="" selected>请选择类型</option>
+                            <option th:each="feeType:${feeTypeList}" th:value="${feeType.id}"
+                                    th:text="${feeType.name}"></option>
+                        </select>
+                    </span>
+                    业主编号：
+                    <input type="text" class="input-text" style="width:120px" placeholder="业主编号" id="ownerId"
+                           name="ownerId">
+                    缴费日期：
+                    <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                           id="datemin"
+                           class="input-text Wdate" style="width:120px;" name="startTime">
+                    -
+                    <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                           id="datemax" class="input-text Wdate" style="width:120px;" name="endTime">
                     <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
                     </button>
                 </div>
             </form>
             <div class="cl pd-5 bg-1 bk-gray mt-20">
-                <span class="l"> <a href="javascript:;" onclick="admin_add('添加收费类型','/admin/feeType/doAdd','800','500')"
-                                    class="btn btn-primary radius"><i
-                        class="Hui-iconfont">&#xe600;</i> 添加收费类型</a> </span>
+                <span class="l"> <i class="Hui-iconfont">&#xe687;</i> 总缴费情况</a> </span>
                 <span class="r">共有数据：<strong id="listSize"></strong> 条</span>
             </div>
             <table class="table table-border table-bordered table-bg">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="9">收费类型列表</th>
+                    <th scope="col" colspan="6">收费列表</th>
                 </tr>
                 <tr class="text-c">
-                    <th width="40">编号</th>
-                    <th width="150">类型名</th>
-                    <th width="90">备注</th>
-                    <th width="100">操作</th>
+                    <th width="40">收费类型编号</th>
+                    <th width="90">类型名</th>
+                    <th width="40">业主编号</th>
+                    <th width="60">业主名</th>
+                    <th width="120">总金额</th>
+                    <th width="50">详情</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!--@thymesVar id="empList" type="List<com.wyz.pms.core.pojo.Employee>"-->
-                <tr th:each="feeType,interStat:${feeTypeList}" class="text-c">
+                <tr th:each="fee,interStat:${feeTypeMoneyList}" class="text-c">
                     <input type="hidden" id="objSize" th:value="${interStat.size}"/>
-                    <td th:text="${feeType.id}"></td>
-                    <td th:text="${feeType.name}"></td>
-                    <td th:text="${feeType.remark}"></td>
-                    <td class="td-manage"><a
-                            title="编辑" href="javascript:;"
-                            th:onclick="|javascript:admin_edit('收费类型编辑','/admin/feeType/doUpdate?id=${feeType.id}','1','800','500')|"
-                            class="ml-5"
-                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" th:onclick="|javascript:admin_del(this,'${feeType.id}')|"
-                           class="ml-5" style="text-decoration:none">
-                            <i
-                                    class="Hui-iconfont">&#xe6e2;</i></a></td>
+                    <td th:text="${fee.feeTypeId}"></td>
+                    <td th:text="${fee.feeTypeName}"></td>
+                    <td th:text="${fee.ownerId}"></td>
+                    <td th:text="${fee.ownerName}"></td>
+                    <td th:text="${fee.totalMoney}"></td>
+                    <td class="td-manage"><a title="编辑" href="javascript:;"
+                                             th:onclick="|javascript:admin_edit('缴费详情','/admin/fee/feeDetailByOwnerIdAndType/${fee.feeTypeId}/${fee.ownerId}','1','1000','600')|"
+                                             class="ml-5" style="text-decoration:none"><i
+                            class="Hui-iconfont">&#xe6f3;</i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -110,8 +113,6 @@
 <script type="text/javascript" th:src="@{/static/assets/lib/laypage/1.2/laypage.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/static/pms/base.js}"></script>
 
-<!--请在下方写此页面业务相关的脚本-->
-
 <script type="text/javascript">
     /*
         参数解释：
@@ -121,34 +122,6 @@
         w		弹出层宽度（缺省调默认值）
         h		弹出层高度（缺省调默认值）
     */
-    /*管理员-增加*/
-    function admin_add(title, url, w, h) {
-        layer_show(title, url, w, h);
-
-    }
-
-    /*管理员-删除*/
-    function admin_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //此处请求后台程序，下方是成功后的前台处理……
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:8380/admin/feeType/delete?id=" + id,
-                data: null,
-                success: function (result) {
-                    if (result.code == 200) {
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除! code=' + result.code, {icon: 1, time: 1000});
-                    } else {
-                        layer.msg('删除失败! code=' + result.code, {icon: 1, time: 1000});
-                    }
-                },
-                error: function (e) {
-                    layer.msg('删除!失败 m=' + e.code, {icon: 1, time: 1000});
-                }
-            });
-        });
-    }
 
     /*管理员-编辑*/
     function admin_edit(title, url, id, w, h) {

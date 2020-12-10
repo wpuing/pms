@@ -1,6 +1,7 @@
 package com.wyz.pms.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.PUINGUtil;
@@ -9,6 +10,8 @@ import com.wyz.pms.core.pojo.Employee;
 import com.wyz.pms.core.pojo.Fee;
 import com.wyz.pms.core.pojo.FeeType;
 import com.wyz.pms.core.pojo.Owner;
+import com.wyz.pms.core.pojo.vo.FeeDetail;
+import com.wyz.pms.core.pojo.vo.FeeTypeMoneyVo;
 import com.wyz.pms.core.pojo.vo.FeeVo;
 import com.wyz.pms.core.service.EmployeeService;
 import com.wyz.pms.core.service.FeeService;
@@ -97,7 +100,7 @@ public class FeeServiceImpl implements FeeService {
             wrapper.orderByDesc(Fee::getId);
         }
         List<Fee> fees = feeMapper.selectList(wrapper);
-        if(fees!=null && fees.size()>0){//存在车位
+        if(fees!=null && fees.size()>0){//存在收费
             for (Fee f:fees) {
                 FeeVo feeVo = new FeeVo();//创建组合对象
                 BeanUtils.copyProperties(f,feeVo);//拷贝
@@ -114,10 +117,49 @@ public class FeeServiceImpl implements FeeService {
     }
 
     @Override
+    public List<FeeDetail> find(Integer feeTypeId, Integer ownerId, Integer status) {
+        QueryWrapper<Fee> query = Wrappers.<Fee>query();
+        if (PUINGUtil.isEmpty(feeTypeId)) {
+            query.eq("f.fee_type_id", feeTypeId);
+        }
+        if (PUINGUtil.isEmpty(ownerId)) {
+            query.eq("f.owner_id", ownerId);
+        }
+        query.eq("f.status",status);//缴费状态
+        List<FeeDetail> feeDetails = feeMapper.selectFeeDetailByOwner(query);
+        return feeDetails;
+    }
+
+    @Override
+    public List<FeeTypeMoneyVo> find(String startTime, String endTime, Integer feeTypeId, Integer ownerId) {
+        QueryWrapper<Fee> query = Wrappers.<Fee>query();
+        if (PUINGUtil.isEmpty(feeTypeId)) {
+            query.eq("f.fee_type_id", feeTypeId);
+        }
+        if (PUINGUtil.isEmpty(ownerId)) {
+            query.eq("f.owner_id", ownerId);
+        }
+        //缴费日期
+        if (PUINGUtil.isEmpty(startTime)) {//开始
+            query.apply("date_format(f.pay_time,'%Y-%m-%d')>={0}", startTime);
+        }
+        if (PUINGUtil.isEmpty(endTime)) {//结束
+            query.apply("date_format(f.pay_time,'%Y-%m-%d')<={0}", endTime);
+        }
+
+        query.groupBy("f.fee_type_id","f.owner_id");
+
+        List<FeeTypeMoneyVo> feeTypeMonies = feeMapper.selectFeeTypeMoney(query);
+
+        return feeTypeMonies;
+    }
+
+    @Override
     public int insert(Fee fee) {
         clickOwner(fee);//校验用户
         clickEmployee(fee);//校验员工
         clickPayTime(fee);
+
         return feeMapper.insert(fee);
     }
 
@@ -203,9 +245,13 @@ public class FeeServiceImpl implements FeeService {
      */
     private void clickPayTime(Fee fee){
         if (fee.getStatus()!= null && fee.getStatus()==2) {//状态
+            if(!PUINGUtil.isEmpty(fee.getMethod())){
+                throw new PermissionException("添加收费失败，已缴费状态，支付方式不能为空不存在！状态："+fee.getStatus());
+            }
             fee.setPayTime(LocalDateTime.now());
         }else {
             fee.setPayTime(null);
+            fee.setMethod(null);
         }
     }
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+    <style type="text/css">
+        .main {
+            width: 400px;
+            height: 250px;
+            float: right;
+            margin-right: 50px;
+            margin-top: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .login {
+            width: 400px;
+            height: 200px;
+            margin-top: 30px;
+        }
+
+        body {
+            background-image: url('/static/assets/static/images/loginbg.jpg');
+        }
+    </style>
+</head>
+
+<body>
+<h1 style="float: right; margin-right: 190px;margin-top: 100px;color: #F0F0EE;">登&nbsp;&nbsp;&nbsp;&nbsp;录</h1>
+<div style="clear: both; "></div>
+<div class="main">
+    <div class="login">
+        <div class="loginWraper">
+            <div id="loginform" class="loginBox">
+                <form class="form form-horizontal" action="/index" method="post">
+                    <div class="row cl">
+                        <div class="formControls col-xs-8" style="margin-left: 80px;">
+                            <input name="username" type="text" placeholder="账户" class="input-text size-L">
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <div class="formControls col-xs-8" style="margin-left: 80px;">
+                            <input name="" type="password" placeholder="密码" class="input-text size-L">
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <div class="formControls col-xs-8" style="margin-left: 100px;">
+                            <div class="radio-box">
+                                <input name="role" type="radio" id="sex-1" value="ADMIN" checked>
+                                <label style="color: #ffffff" for="sex-1">管理员</label>
+                            </div>
+                            <div class="radio-box">
+                                <input type="radio" id="sex-2" name="role" value="OWNER">
+                                <label style="color: #ffffff" for="sex-2">业主</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row cl">
+                        <div class="formControls col-xs-8 col-xs-offset-3">
+                            <input name="" type="submit" class="btn btn-success radius size-L"
+                                   value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input name="" type="reset" class="btn btn-default radius size-L"
+                                   value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="Bookmark" href="favicon.ico">
+    <link rel="Shortcut Icon" href="favicon.ico"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+    <!--/meta 作为公共模版分离出去-->
+
+    <title>缴费详情</title>
+</head>
+<body>
+<h3 style="text-align: center">缴费详情</h3>
+<article th:each="detailListVo:${detailListVos}" class="cl pd-20">
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th scope="col" colspan="7" th:text="${detailListVo.feeInfo}"></th>
+        </tr>
+        <tr class="text-c">
+            <th width="40">收费编号</th>
+            <th width="90">类型名</th>
+            <th width="40">金额</th>
+            <th width="130">缴费日期</th>
+            <th width="120">支付方式</th>
+            <th width="60">业主名</th>
+            <th width="120">操作员名</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="fee:${detailListVo.detailList}" class="text-c">
+            <td th:text="${fee.feeId}"></td>
+            <td th:text="${fee.feeTypeName}"></td>
+            <td th:text="${fee.money}"></td>
+            <td th:text="${fee.payTime}"></td>
+            <td th:text="${fee.method}"></td>
+            <td th:text="${fee.ownerName}"></td>
+            <td th:text="${fee.operatorName}"></td>
+        </tr>
+        </tbody>
+    </table>
+</article>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+<script type="text/javascript">
+    function update() {
+        //得到表单数据，序列化表单
+        var owner = $("#form-admin-add").serialize();
+        //使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
+        $.post("http://localhost:8380/admin/fee/update", owner, function (data) {
+            //回调回来的数据data
+            if (data.code == '200') {
+                alert('响应码：' + data.code + " ,消息：" + data.message);
+                var index = parent.layer.getFrameIndex(window.name);
+                //刷新父窗口
+                window.parent.location.reload();
+                //关闭弹框
+                parent.layer.close(index);
+            } else {
+                alert('添加失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
+            }
+        });
+    }
+</script>
+<script type="text/javascript" th:inline="javascript">
+    $().ready(function() {
+        var single = document.getElementById("feeTypeId1").value;
+        $("#feeTypeId option[value= " + single + "]").prop("selected",true);
+    });
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -17,85 +17,65 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>修改收费</title>
+    <title>添加车位</title>
 </head>
 <body>
 <article class="cl pd-20">
     <form class="form form-horizontal" id="form-admin-add">
-        <input type="hidden" name="id" id="id" th:field="${fee.id}"/>
+        <input type="hidden" name="id" id="id" th:field="${repair.id}"/>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>收费类型：</label>
-            <input type="hidden" id="feeTypeId1" name="feeTypeId1" th:field="${fee.feeTypeId}">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>维修物品：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                  <span class="select-box" style="width:160px">
-                        <select id="feeTypeId" class="select" name="feeTypeId" size="1">
-                            <option th:each="feeType:${feeTypeList}" th:value="${feeType.id}" th:text="${feeType.name}"></option>
-                        </select>
-                  </span>
+                <input type="text" class="input-text" th:field="${repair.item}" placeholder="物品" id="item" name="item">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>金额：</label>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地点：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${fee.money}" placeholder="金额" id="money" name="money">
+                <input type="text" class="input-text" th:field="${repair.site}" placeholder="地点" id="site" name="site">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>支付方式：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input th:checked="${fee.method} eq '支付宝'" name="method" type="radio" id="method1" value="支付宝">
-                    <label for="sex-1">支付宝</label>
-                </div>
-                <div class="radio-box">
-                    <input th:checked="${fee.method} eq '微信'" type="radio" id="method2" name="method" value="微信">
-                    <label for="sex-2">微信</label>
-                </div>
-                <div class="radio-box">
-                    <input th:checked="${fee.method} eq '银行卡'" type="radio" id="method3" name="method" value="银行卡">
-                    <label for="sex-2">银行卡</label>
-                </div>
-                <div class="radio-box">
-                    <input th:checked="${fee.method} eq '现金'" type="radio" id="method4" name="method" value="现金">
-                    <label for="sex-2">现金</label>
-                </div>
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>原因：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <textarea name="reason" cols="" rows="" th:field="${repair.reason}" class="textarea" placeholder="200个字符以内" dragonfly="true"
+                          onKeyUp="textarealength(this,200)"></textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>报修时间：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:field="${repair.createTime}" placeholder="" disabled>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>状态：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="radio-box">
-                    <input th:checked="${fee.status} eq '1'" name="status" type="radio" id="sex-1" value="1">
-                    <label for="sex-1">未缴费</label>
+                    <input name="status" th:checked="${repair.status} eq '1'" type="radio" id="sex-1" value="1">
+                    <label for="sex-1">未受理</label>
                 </div>
                 <div class="radio-box">
-                    <input th:checked="${fee.status} eq '2'" type="radio" id="sex-2" name="status" value="2">
-                    <label for="sex-2">已缴费</label>
+                    <input type="radio" th:checked="${repair.status} eq '2'" id="sex-2" name="status" value="2">
+                    <label for="sex-2">已受理(未解决)</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" th:checked="${repair.status} eq '3'" id="sex-3" name="status" value="3">
+                    <label for="sex-2">已解决</label>
                 </div>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>业主编号：</label>
+            <label class="form-label col-xs-4 col-sm-3">报修人：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${fee.ownerId}" placeholder="业主编号" id="ownerId" name="ownerId" >
+                <input type="text" class="input-text"th:field="${repair.ownerId}" placeholder="" id="ownerId" name="ownerId">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>业主名：</label>
+            <label class="form-label col-xs-4 col-sm-3">处理人：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${fee.ownerName}" placeholder="业主名" id="ownerName" name="ownerName" disabled>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">操作员编号：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${fee.operatorId}" placeholder="操作员编号" id="operatorId" name="operatorId">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">操作员：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${fee.operatorName}" placeholder="操作员" id="operatorName" name="operatorName" disabled>
+                <input type="text" class="input-text" th:field="${repair.employeeName}" placeholder="" id="employeeName" name="employeeName">
             </div>
         </div>
         <div class="row cl">
@@ -124,7 +104,7 @@
         //得到表单数据，序列化表单
         var owner = $("#form-admin-add").serialize();
         //使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
-        $.post("http://localhost:8380/admin/fee/update", owner, function (data) {
+        $.post("http://localhost:8380/admin/repair/update", owner, function (data) {
             //回调回来的数据data
             if (data.code == '200') {
                 alert('响应码：' + data.code + " ,消息：" + data.message);
@@ -138,12 +118,6 @@
             }
         });
     }
-</script>
-<script type="text/javascript" th:inline="javascript">
-    $().ready(function() {
-        var single = document.getElementById("feeTypeId1").value;
-        $("#feeTypeId option[value= " + single + "]").prop("selected",true);
-    });
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

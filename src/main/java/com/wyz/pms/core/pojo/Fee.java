@@ -38,6 +38,7 @@ public class Fee implements Serializable {
     /**
      * 缴费方式
      */
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private String method;
 
     /**

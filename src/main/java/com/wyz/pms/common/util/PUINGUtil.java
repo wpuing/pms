@@ -233,6 +233,30 @@ public class PUINGUtil {
 	}
 
 	/**
+	 * 判断是否为空
+	 *
+	 * @param i
+	 */
+	public static boolean isEmpty(Integer i) {
+		if (i != null && i>0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 判断是否为空
+	 *
+	 * @param decimal
+	 */
+	public static boolean isEmpty(BigDecimal decimal) {
+		if (decimal != null && decimal.compareTo(new BigDecimal("0.00")) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * 提取判断存在则追加
 	 * 
 	 * @param str1 原数据
