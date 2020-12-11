@@ -1,0 +1,42 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="Bookmark" th:href="@{/assets/favicon.ico}">
+    <link rel="Shortcut Icon" th:href="@{/assets/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+
+    <title>PMS业主端</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<div th:include="owner/public/_header::header">
+
+</div>
+<!--/_header 作为公共模版分离出去-->
+<h1 style="text-align: center;line-height: 500px;">欢迎来到小区物业管理系统业主端</h1>
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
+<script type="text/javascript">
+    function myInfo(title, url, w, h) {
+        layer_show(title, url, w, h);
+    }
+</script>
+</body>
+</html>

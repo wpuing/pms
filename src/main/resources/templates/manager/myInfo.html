@@ -1,0 +1,52 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="Bookmark" href="../../static/assets/favicon.ico">
+    <link rel="Shortcut Icon" href="../../static/assets/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+    <!--/meta 作为公共模版分离出去-->
+
+    <title>个人信息</title>
+</head>
+<body>
+<h3 style="text-align: center">个人信息</h3>
+<hr/>
+<div style="width: 200px;height:300px;margin: 0 auto">
+    编号：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.id}"></strong><br/>
+    账号：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.account}"></strong><br/>
+    名称：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.name}"></strong><br/>
+    性别：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.sex}"></strong><br/>
+    手机号：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.phone}"></strong><br/>
+    角色：&nbsp;&nbsp;&nbsp;
+        <strong th:if="${emp.roleId eq 0}">管理员</strong>
+        <strong th:if="${emp.roleId eq 1}">安保员</strong>
+        <strong th:if="${emp.roleId eq 2}">清洁员</strong>
+        <strong th:if="${emp.roleId eq 3}">维修员</strong>
+   <br/>
+    注册日期：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.createTime}"></strong><br/>
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/jquery.validate.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
+</body>
+</html>

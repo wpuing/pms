@@ -3,12 +3,15 @@ package com.wyz.pms.core.controller.owner;
 import com.wyz.pms.common.util.PMSUtil;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.common.util.Result;
+import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.pojo.Repair;
 import com.wyz.pms.core.pojo.vo.RepairVo;
+import com.wyz.pms.core.service.OwnerService;
 import com.wyz.pms.core.service.RepairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,10 +20,20 @@ import java.util.List;
 
 @RequestMapping("/owner/repair")
 @Controller
-public class RepairController {
+public class OwnerRepairController {
 
     @Autowired
     private RepairService repairService;
+
+
+    @RequestMapping("/doList/{ownerId}")
+    public String find(@PathVariable("ownerId") Integer ownerId, Model model){
+        Repair repair =new Repair();
+        repair.setOwnerId(ownerId);
+        System.out.println("用户id： "+ownerId);
+        return find(null,null,null,null,repair,null,model);
+    }
+
 
     @RequestMapping("/list")
     public String find(String createStartTime, String createEndTime,
@@ -35,6 +48,7 @@ public class RepairController {
     public String doAdd() {
         return "/owner/repair-add.html";
     }
+
 
     @RequestMapping("/doUpdate")
     public String doUpdate(Integer id, Model model) {

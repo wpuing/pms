@@ -17,34 +17,65 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
-    <title>添加收费类型</title>
+    <title>资产详情</title>
 </head>
 <body>
+<h3 style="text-align: center">资产详情</h3>
 <article class="cl pd-20">
-    <form class="form form-horizontal " id="form-admin-add">
-        <input type="hidden" name="id" id="id" value=""/>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>名称：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" placeholder="" id="name" name="name">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">备注：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="remark" cols="" rows="" class="textarea"  placeholder="200个字符以内" dragonfly="true" onKeyUp="textarealength(this,200)"></textarea>
-                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
-            </div>
-        </div>
-        <div class="row cl">
-            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input class="btn btn-primary radius" onclick="insert()" type="button"
-                       value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
-            </div>
-        </div>
-    </form>
-</article>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th scope="col" colspan="8">房产列表</th>
+        </tr>
+        <tr class="text-c">
+            <th width="40">编号</th>
+            <th width="90">房产号</th>
+            <th width="80">单元</th>
+            <th width="40">楼层</th>
+            <th width="150">房产类型</th>
+            <th width="100">面积/平方米</th>
+            <th width="60">业主编号</th>
+            <th width="90">业主名</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="house:${houseList}" class="text-c">
+            <td th:text="${house.id}"></td>
+            <td th:text="${house.number}"></td>
+            <td th:text="${house.unitSum}"></td>
+            <td th:text="${house.layer}"></td>
+            <td th:text="${house.houseType}"></td>
+            <td th:text="${house.area}"></td>
+            <td th:text="${house.ownerId}"></td>
+            <td th:text="${house.ownerName}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th scope="col" colspan="5">车位列表</th>
+        </tr>
+        <tr class="text-c">
+            <th width="40">编号</th>
+            <th width="150">车位号</th>
+            <th width="80">价格/元</th>
+            <th width="40">业主编号</th>
+            <th width="90">业主名</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="parking,interStat:${parkingList}" class="text-c">
+            <td th:text="${parking.id}"></td>
+            <td th:text="${parking.number}"></td>
+            <td th:text="${parking.price}"></td>
+            <td th:text="${parking.ownerId}"></td>
+            <td th:text="${parking.ownerName}"></td>
 
+        </tr>
+        </tbody>
+    </table>
+</article>
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/lib/layer/2.4/layer.js}"></script>
@@ -58,11 +89,11 @@
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
-    function insert() {
+    function update() {
         //得到表单数据，序列化表单
-        var employee = $("#form-admin-add").serialize();
-        //使用ajax post提交方式 ，默认json数据
-        $.post("http://localhost:8380/admin/feeType/add", employee, function (data) {
+        var owner = $("#form-admin-add").serialize();
+        //使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
+        $.post("http://localhost:8380/admin/fee/update", owner, function (data) {
             //回调回来的数据data
             if (data.code == '200') {
                 alert('响应码：' + data.code + " ,消息：" + data.message);
@@ -76,6 +107,12 @@
             }
         });
     }
+</script>
+<script type="text/javascript" th:inline="javascript">
+    $().ready(function() {
+        var single = document.getElementById("feeTypeId1").value;
+        $("#feeTypeId option[value= " + single + "]").prop("selected",true);
+    });
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

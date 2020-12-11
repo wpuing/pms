@@ -6,6 +6,7 @@ import com.wyz.pms.common.exception.ParameterException;
 import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.core.mapper.OwnerMapper;
+import com.wyz.pms.core.pojo.Employee;
 import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,20 @@ public class OwnerServiceImpl implements OwnerService {
     public int update(Owner owner) {
 
         return ownerMapper.updateById(owner);
+    }
+
+    @Override
+    public int updatePassword(Owner owner) {
+        if(owner!=null){
+            Owner owner1 = findById(owner.getId());
+            if(owner1!=null){
+                if (PUINGUtil.isEmpty(owner.getPassword())) {//密码
+                    owner1.setPassword(owner.getPassword());
+                }
+                return ownerMapper.updateById(owner1);
+            }
+        }
+        return 0;
     }
 
     @Override

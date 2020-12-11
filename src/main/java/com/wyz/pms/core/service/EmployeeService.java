@@ -17,6 +17,8 @@ public interface EmployeeService {
 
     int update(Employee employee);
 
+    int updatePassword(Employee employee);
+
     int delete(Integer id);
 
     Employee findById(Integer id);

@@ -22,38 +22,33 @@
 <body>
 <!--_header 作为公共模版分离出去-->
 <!--_header 作为公共模版分离出去-->
-<div th:include="manager/public/_header::header">
-
-</div>
-<div th:replace="manager/public/_menu::pms_menu">
+<div th:include="owner/public/_header::header">
 
 </div>
 <!--/_menu 作为公共模版分离出去-->
-<section class="Hui-article-box">
-    <nav class="breadcrumb"><a href="/index"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
-        <span class="c-gray en">&gt;</span>
-        维修管理
-        <span class="c-gray en">&gt;</span>
-        维修列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
-                href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
-    </nav>
-    <div class="Hui-article">
-        <article class="cl pd-20">
-            <form action="/admin/repair/list" method="post">
-                <div class="text-c">
-                    <input type="text" class="input-text" style="width:120px" placeholder="编号" id="id"
-                           name="id">
-                    <input type="text" class="input-text" style="width:100px" placeholder="物品" id="item"
-                           name="item">
-                    <input type="text" class="input-text" style="width:100px" placeholder="地点" id="site"
-                           name="site">
-                    <input type="text" class="input-text" style="width:150px" placeholder="原因" id="reason"
-                           name="reason">
-                    <input type="text" class="input-text" style="width:120px" placeholder="业主编号" id="ownerId"
-                           name="ownerId">
-                    <input type="text" class="input-text" style="width:130px" placeholder="处理人" id="employeeName"
-                           name="employeeName">
-                    <span class="select-box" style="width:90px">
+<nav class="breadcrumb"><a href="/index"><i class="Hui-iconfont">&#xe67f;</i> 首页</a>
+    <span class="c-gray en">&gt;</span>
+    维修管理
+    <span class="c-gray en">&gt;</span>
+    维修列表
+</nav>
+<div class="Hui-article">
+    <article class="cl pd-20" style="margin-top: 50px;">
+        <form action="/owner/repair/doList/4" method="post">
+            <div class="text-c">
+                <input type="text" class="input-text" style="width:120px" placeholder="编号" id="id"
+                       name="id">
+                <input type="text" class="input-text" style="width:100px" placeholder="物品" id="item"
+                       name="item">
+                <input type="text" class="input-text" style="width:100px" placeholder="地点" id="site"
+                       name="site">
+                <input type="text" class="input-text" style="width:150px" placeholder="原因" id="reason"
+                       name="reason">
+                <input type="hidden" id="ownerId" name="ownerId" value="4">
+                
+                <input type="text" class="input-text" style="width:130px" placeholder="处理人" id="employeeName"
+                       name="employeeName">
+                <span class="select-box" style="width:90px">
 				<select class="select" name="status" size="1">
 					<option value="">状态</option>
 					<option value="1">未受理</option>
@@ -61,88 +56,83 @@
 					<option value="3">已解决</option>
 				</select>
 				</span>
-                    <span class="select-box" style="width:75px">
+                <span class="select-box" style="width:75px">
 				<select class="select" name="sort" size="1">
 					<option value="" selected>排序</option>
-					<option value="0" >倒序</option>
+					<option value="0">倒序</option>
 					<option value="1">正序</option>
 				</select>
 				</span>
-                    <br/>
-                    <br/>
-                    报修日期：
-                    <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin"
-                           class="input-text Wdate" style="width:120px;" name="createStartTime">
-                    -
-                    <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax" class="input-text Wdate" style="width:120px;" name="createEndTime">
-                    解决日期：
-                    <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
-                           id="datemin1"
-                           class="input-text Wdate" style="width:120px;" name="resolveStartTime">
-                    -
-                    <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
-                           id="datemax1" class="input-text Wdate" style="width:120px;" name="resolveEndTime">
-                    <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
-                    </button>
-                </div>
-            </form>
-            <div class="cl pd-5 bg-1 bk-gray mt-20">
-                <span class="l"> <a href="javascript:;" onclick="admin_add('添加维修','/admin/repair/doAdd','800','500')"
-                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加维修</a> </span>
-                <span class="r">共有数据：<strong id="listSize"></strong> 条</span>
+                <br/>
+                <br/>
+                报修日期：
+                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                       id="datemin"
+                       class="input-text Wdate" style="width:120px;" name="createStartTime">
+                -
+                <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                       id="datemax" class="input-text Wdate" style="width:120px;" name="createEndTime">
+                解决日期：
+                <input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})"
+                       id="datemin1"
+                       class="input-text Wdate" style="width:120px;" name="resolveStartTime">
+                -
+                <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})"
+                       id="datemax1" class="input-text Wdate" style="width:120px;" name="resolveEndTime">
+                <button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
+                </button>
             </div>
-            <table class="table table-border table-bordered table-bg">
-                <thead>
-                <tr>
-                    <th scope="col" colspan="11">维修列表</th>
-                </tr>
-                <tr class="text-c">
-                    <th width="40">编号</th>
-                    <th width="90">物品</th>
-                    <th width="120">地点</th>
-                    <th width="120">原因</th>
-                    <th width="140">报修时间</th>
-                    <th width="140">解决时间</th>
-                    <th width="100">状态</th>
-                    <th width="50">业主编号</th>
-                    <th width="60">业主名</th>
-                    <th width="60">处理人</th>
-                    <th width="50">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="repair,interStat:${repairList}" class="text-c">
-                    <input type="hidden" id="objSize" th:value="${interStat.size}"/>
-                    <td th:text="${repair.id}"></td>
-                    <td th:text="${repair.item}"></td>
-                    <td th:text="${repair.site}"></td>
-                    <td th:text="${repair.reason}"></td>
-                    <td th:text="${repair.createTime}"></td>
-                    <td th:text="${repair.resolveTime}"></td>
-                    <td th:switch="${repair.status}">
-                        <span th:case="'1'">未受理</span>
-                        <span th:case="'2'">已受理(未解决)</span>
-                        <span th:case="'3'">已解决</span>
-                    </td>
-                    <td th:text="${repair.ownerId}"></td>
-                    <td th:text="${repair.ownerName}"></td>
-                    <td th:text="${repair.employeeName}"></td>
-                    <td class="td-manage"><a title="编辑" href="javascript:;"
-                                             th:onclick="|javascript:admin_edit('维修编辑','/admin/repair/doUpdate?id=${repair.id}','1','800','500')|"
-                                             class="ml-5" style="text-decoration:none"><i
-                            class="Hui-iconfont">&#xe6df;</i></a> <a title="删除"
-                                                                     th:onclick="|javascript:admin_del(this,'${repair.id}')|"
-                                                                     onclick="admin_del(this,'1')" class="ml-5"
-                                                                     style="text-decoration:none"><i
-                            class="Hui-iconfont">&#xe6e2;</i></a></td>
-                </tr>
-                </tbody>
-            </table>
-        </article>
-    </div>
-</section>
+        </form>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+                <span class="l"> <a href="javascript:;" onclick="admin_add('添加维修','/owner/repair/doAdd','800','500')"
+                                    class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加维修</a> </span>
+            <span class="r">共有数据：<strong id="listSize"></strong> 条</span>
+        </div>
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <tr>
+                <th scope="col" colspan="11">维修列表</th>
+            </tr>
+            <tr class="text-c">
+                <th width="40">编号</th>
+                <th width="90">物品</th>
+                <th width="120">地点</th>
+                <th width="120">原因</th>
+                <th width="140">报修时间</th>
+                <th width="140">解决时间</th>
+                <th width="100">状态</th>
+                <th width="50">业主编号</th>
+                <th width="60">业主名</th>
+                <th width="60">处理人</th>
+                <th width="50">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="repair,interStat:${repairList}" class="text-c">
+                <input type="hidden" id="objSize" th:value="${interStat.size}"/>
+                <td th:text="${repair.id}"></td>
+                <td th:text="${repair.item}"></td>
+                <td th:text="${repair.site}"></td>
+                <td th:text="${repair.reason}"></td>
+                <td th:text="${repair.createTime}"></td>
+                <td th:text="${repair.resolveTime}"></td>
+                <td th:switch="${repair.status}">
+                    <span th:case="'1'">未受理</span>
+                    <span th:case="'2'">已受理(未解决)</span>
+                    <span th:case="'3'">已解决</span>
+                </td>
+                <td th:text="${repair.ownerId}"></td>
+                <td th:text="${repair.ownerName}"></td>
+                <td th:text="${repair.employeeName}"></td>
+                <td class="td-manage"><a title="编辑" href="javascript:;"
+                                         th:onclick="|javascript:admin_edit('维修编辑','/owner/repair/doUpdate?id=${repair.id}','1','800','500')|"
+                                         class="ml-5" style="text-decoration:none"><i
+                        class="Hui-iconfont">&#xe6df;</i></a> </td>
+            </tr>
+            </tbody>
+        </table>
+    </article>
+</div>
 
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
@@ -172,31 +162,12 @@
         layer_show(title, url, w, h);
     }
 
-    /*管理员-删除*/
-    function admin_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            //此处请求后台程序，下方是成功后的前台处理……
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:8380/admin/repair/delete?id=" + id,
-                data: null,
-                success: function (result) {
-                    if (result.code == 200) {
-                        $(obj).parents("tr").remove();
-                        layer.msg('已删除! code=' + result.code, {icon: 1, time: 1000});
-                    } else {
-                        layer.msg('删除失败! code=' + result.code, {icon: 1, time: 1000});
-                    }
-                },
-                error: function (e) {
-                    layer.msg('删除!失败 m=' + e.code, {icon: 1, time: 1000});
-                }
-            });
-        });
-    }
-
     /*管理员-编辑*/
     function admin_edit(title, url, id, w, h) {
+        layer_show(title, url, w, h);
+    }
+
+    function myInfo(title, url, w, h) {
         layer_show(title, url, w, h);
     }
 

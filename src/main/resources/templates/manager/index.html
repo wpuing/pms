@@ -8,8 +8,8 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <LINK rel="Bookmark" href="favicon.ico">
-    <LINK rel="Shortcut Icon" href="favicon.ico"/>
+    <LINK rel="Bookmark" href="../../static/assets/favicon.ico">
+    <LINK rel="Shortcut Icon" href="../../static/assets/favicon.ico"/>
 
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
@@ -40,11 +40,17 @@
     </div>
 </section>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="../assets/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/lib/layer/2.4/layer.js"></script>
-<script type="text/javascript" src="../assets/static/h-ui/js/H-ui.js"></script>
-<script type="text/javascript" src="../assets/static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<script type="text/javascript" th:src="@{static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{static/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{static/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
 
 <!--/_footer /作为公共模版分离出去-->
+<script type="text/javascript">
+    function admin_add(title, url, w, h) {
+        layer_show(title, url, w, h);
+
+    }
+</script>
 </body>
 </html>

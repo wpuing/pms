@@ -24,6 +24,8 @@ public interface OwnerService {
 
     int update(Owner owner);
 
+    int updatePassword(Owner owner);
+
     int delete(Integer id);
 
 

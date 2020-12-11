@@ -32,6 +32,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public int updatePassword(Employee employee) {
+        if(employee!=null){
+            Employee employee1 = findById(employee.getId());
+            if(employee1!=null){
+                if (PUINGUtil.isEmpty(employee.getPassword())) {//密码
+                    employee1.setPassword(employee.getPassword());
+                }
+                return employeeMapper.updateById(employee1);
+            }
+        }
+        return 0;
+    }
+
+    @Override
     public int delete(Integer id) {
         PUINGUtil.notNullByZero(id, "员工编号不能为空或者小于等于0");
         return employeeMapper.deleteById(id);

@@ -49,35 +49,9 @@
                 <input type="text" class="input-text" th:field="${repair.createTime}" placeholder="" disabled>
             </div>
         </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>状态：</label>
-            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
-                <div class="radio-box">
-                    <input name="status" th:checked="${repair.status} eq '1'" type="radio" id="sex-1" value="1">
-                    <label for="sex-1">未受理</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" th:checked="${repair.status} eq '2'" id="sex-2" name="status" value="2">
-                    <label for="sex-2">已受理(未解决)</label>
-                </div>
-                <div class="radio-box">
-                    <input type="radio" th:checked="${repair.status} eq '3'" id="sex-3" name="status" value="3">
-                    <label for="sex-2">已解决</label>
-                </div>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">报修人：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text"th:field="${repair.ownerId}" placeholder="" id="ownerId" name="ownerId">
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-3">处理人：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" th:field="${repair.employeeName}" placeholder="" id="employeeName" name="employeeName">
-            </div>
-        </div>
+        <input name="status" type="hidden" id="sex-1" th:field="${repair.status}"><!--状态-->
+        <input type="hidden"th:field="${repair.ownerId}"  id="ownerId" name="ownerId"><!--报修人-->
+        <input type="hidden" th:field="${repair.employeeName}" id="employeeName" name="employeeName"><!--处理人-->
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" onclick="update()" type="button"
@@ -104,7 +78,7 @@
         //得到表单数据，序列化表单
         var owner = $("#form-admin-add").serialize();
         //使用ajax post提交方式 ，默认json数据/*[[@{/index/ajaxtest}]]*/
-        $.post("http://localhost:8380/admin/repair/update", owner, function (data) {
+        $.post("http://localhost:8380/owner/repair/update", owner, function (data) {
             //回调回来的数据data
             if (data.code == '200') {
                 alert('响应码：' + data.code + " ,消息：" + data.message);

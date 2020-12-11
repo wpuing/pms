@@ -46,9 +46,9 @@ public class FeeServiceImpl implements FeeService {
         PUINGUtil.notNullByZero(id, "收费编号不能为空或者小于等于0");
         Fee fee = feeMapper.selectById(id);
         FeeVo feeVo = new FeeVo();
-        BeanUtils.copyProperties(fee,feeVo);//拷贝
+        BeanUtils.copyProperties(fee, feeVo);//拷贝
         FeeVo clickFeeVo = clickFeeVo(fee);
-        if(clickFeeVo!=null){
+        if (clickFeeVo != null) {
             feeVo.setOwnerName(clickFeeVo.getOwnerName());
             feeVo.setFeeTypeName(clickFeeVo.getFeeTypeName());
             feeVo.setOperatorName(clickFeeVo.getOperatorName());
@@ -89,10 +89,10 @@ public class FeeServiceImpl implements FeeService {
         }
         //金额
         if (startPrice != null && startPrice.compareTo(new BigDecimal("0.00")) > 0) {
-            wrapper.ge(Fee::getMoney,startPrice);//大于等于
+            wrapper.ge(Fee::getMoney, startPrice);//大于等于
         }
         if (endPrice != null && endPrice.compareTo(new BigDecimal("0.00")) > 0) {
-            wrapper.le(Fee::getMoney,endPrice);//小于等于
+            wrapper.le(Fee::getMoney, endPrice);//小于等于
         }
         if (sort != null && sort == 1) {//排序
             wrapper.orderByAsc(Fee::getId);
@@ -100,12 +100,12 @@ public class FeeServiceImpl implements FeeService {
             wrapper.orderByDesc(Fee::getId);
         }
         List<Fee> fees = feeMapper.selectList(wrapper);
-        if(fees!=null && fees.size()>0){//存在收费
-            for (Fee f:fees) {
+        if (fees != null && fees.size() > 0) {//存在收费
+            for (Fee f : fees) {
                 FeeVo feeVo = new FeeVo();//创建组合对象
-                BeanUtils.copyProperties(f,feeVo);//拷贝
+                BeanUtils.copyProperties(f, feeVo);//拷贝
                 FeeVo clickFeeVo = clickFeeVo(f);
-                if(clickFeeVo!=null){
+                if (clickFeeVo != null) {
                     feeVo.setOwnerName(clickFeeVo.getOwnerName());
                     feeVo.setFeeTypeName(clickFeeVo.getFeeTypeName());
                     feeVo.setOperatorName(clickFeeVo.getOperatorName());
@@ -125,7 +125,7 @@ public class FeeServiceImpl implements FeeService {
         if (PUINGUtil.isEmpty(ownerId)) {
             query.eq("f.owner_id", ownerId);
         }
-        query.eq("f.status",status);//缴费状态
+        query.eq("f.status", status);//缴费状态
         List<FeeDetail> feeDetails = feeMapper.selectFeeDetailByOwner(query);
         return feeDetails;
     }
@@ -147,7 +147,7 @@ public class FeeServiceImpl implements FeeService {
             query.apply("date_format(f.pay_time,'%Y-%m-%d')<={0}", endTime);
         }
 
-        query.groupBy("f.fee_type_id","f.owner_id");
+        query.groupBy("f.fee_type_id", "f.owner_id");
 
         List<FeeTypeMoneyVo> feeTypeMonies = feeMapper.selectFeeTypeMoney(query);
 
@@ -181,11 +181,11 @@ public class FeeServiceImpl implements FeeService {
      * 校验用户是否存在
      * @param fee 车位信息
      */
-    private Owner clickOwner(Fee fee){
-        if(fee !=null && fee.getOwnerId() !=null && fee.getOwnerId()>0){
+    private Owner clickOwner(Fee fee) {
+        if (fee != null && fee.getOwnerId() != null && fee.getOwnerId() > 0) {
             Owner owner = ownerService.findById(fee.getOwnerId());
-            if(owner==null){
-                throw new PermissionException("添加收费失败，该用户不存在！id："+fee.getOwnerId());
+            if (owner == null) {
+                throw new PermissionException("添加收费失败，该用户不存在！id：" + fee.getOwnerId());
             }
             return owner;
         }
@@ -196,11 +196,11 @@ public class FeeServiceImpl implements FeeService {
      * 校验操作员是否存在
      * @param fee 车位信息
      */
-    private Employee clickEmployee(Fee fee){
-        if(fee !=null && fee.getOperatorId() !=null && fee.getOperatorId()>0){
+    private Employee clickEmployee(Fee fee) {
+        if (fee != null && fee.getOperatorId() != null && fee.getOperatorId() > 0) {
             Employee employee = employeeService.findById(fee.getOperatorId());
-            if(employee==null){
-                throw new PermissionException("添加收费失败，该员工不存在！id："+fee.getOperatorId());
+            if (employee == null) {
+                throw new PermissionException("添加收费失败，该员工不存在！id：" + fee.getOperatorId());
             }
             return employee;
         }
@@ -211,29 +211,29 @@ public class FeeServiceImpl implements FeeService {
      * 校验操作员是否存在
      * @param fee 车位信息
      */
-    private FeeType clickFeeType(Fee fee){
-        if(fee !=null && fee.getFeeTypeId() !=null && fee.getFeeTypeId()>0){
+    private FeeType clickFeeType(Fee fee) {
+        if (fee != null && fee.getFeeTypeId() != null && fee.getFeeTypeId() > 0) {
             FeeType feeType = feeTypeService.findById(fee.getFeeTypeId());
-            if(feeType==null){
-                throw new PermissionException("添加收费失败，该收费类型不存在！id："+fee.getOperatorId());
+            if (feeType == null) {
+                throw new PermissionException("添加收费失败，该收费类型不存在！id：" + fee.getOperatorId());
             }
             return feeType;
         }
         return null;
     }
 
-    private FeeVo clickFeeVo(Fee fee){
+    private FeeVo clickFeeVo(Fee fee) {
         FeeVo feeVo = new FeeVo();
         Owner owner = clickOwner(fee);//检查是否存在该用户
-        if(owner!=null){//存在用户
+        if (owner != null) {//存在用户
             feeVo.setOwnerName(owner.getName());//添加用户名
         }
         Employee employee = clickEmployee(fee);//检查是否存在该操作员
-        if(employee!=null){//存在用户
+        if (employee != null) {//存在用户
             feeVo.setOperatorName(employee.getName());//添加操作员的姓名
         }
         FeeType feeType = clickFeeType(fee);
-        if(feeType!=null){//存在类型
+        if (feeType != null) {//存在类型
             feeVo.setFeeTypeName(feeType.getName());//添加操作员的姓名
         }
         return feeVo;
@@ -243,13 +243,13 @@ public class FeeServiceImpl implements FeeService {
      * 检验缴费状态
      * @param fee
      */
-    private void clickPayTime(Fee fee){
-        if (fee.getStatus()!= null && fee.getStatus()==2) {//状态
-            if(!PUINGUtil.isEmpty(fee.getMethod())){
-                throw new PermissionException("添加收费失败，已缴费状态，支付方式不能为空不存在！状态："+fee.getStatus());
+    private void clickPayTime(Fee fee) {
+        if (fee.getStatus() != null && fee.getStatus() == 2) {//状态
+            if (!PUINGUtil.isEmpty(fee.getMethod())) {
+                throw new PermissionException("添加收费失败，已缴费状态，支付方式不能为空不存在！状态：" + fee.getStatus());
             }
             fee.setPayTime(LocalDateTime.now());
-        }else {
+        } else {
             fee.setPayTime(null);
             fee.setMethod(null);
         }

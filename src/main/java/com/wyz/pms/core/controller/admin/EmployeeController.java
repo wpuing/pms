@@ -7,6 +7,7 @@ import com.wyz.pms.core.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -43,6 +44,19 @@ public class EmployeeController {
         return "/manager/emp-edit.html";
     }
 
+    @RequestMapping("/doUpdatePassword/{id}")
+    public String doUpdatePassword(@PathVariable("id") Integer id, Model model) {
+        Employee emp = employeeService.findById(id);
+        model.addAttribute("emp", emp);
+        return "/manager/change-password.html";
+    }
+    @RequestMapping("/myInfo/{id}")
+    public String myInfo(@PathVariable("id") Integer id, Model model) {
+        Employee emp = employeeService.findById(id);
+        model.addAttribute("emp", emp);
+        return "/manager/myInfo.html";
+    }
+
     @ResponseBody
     @RequestMapping("/add")
     public Result add(Employee employee) {
@@ -53,6 +67,14 @@ public class EmployeeController {
     @RequestMapping("/update")
     public Result update(Employee employee){
         return PMSUtil.result(employeeService.update(employee),"修改");
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping("/updatePassword")
+    public Result updatePassword(Employee employee){
+        return PMSUtil.result(employeeService.updatePassword(employee),"修改密码");
     }
 
 
