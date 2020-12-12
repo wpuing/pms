@@ -8,15 +8,15 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <LINK rel="Bookmark" href="../../static/assets/favicon.ico">
-    <LINK rel="Shortcut Icon" href="../../static/assets/favicon.ico"/>
+    <link rel="Bookmark" th:href="@{/static/assets/favicon.ico}">
+    <link rel="Shortcut Icon" th:href="@{/static/assets/favicon.ico}"/>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/css/style.css}"/>
 
     <!--/meta 作为公共模版分离出去-->
     <title>PMS</title>
@@ -31,19 +31,19 @@
 </div>
 <!--/_menu 作为公共模版分离出去-->
 <section class="Hui-article-box">
-    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/admin/index" class="maincolor">首页</a>
         <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
            href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
     <h1 style="margin-top: 50px;text-align: center;">欢迎来到小区物业管理系统</h1>
     <div style="margin-top: 20px;text-align: center;">
-        <img style="width: 500px;height: 300px;" th:src="@{/assets/static/images/qiyiboshi.jpg}"/>
+        <img style="width: 500px;height: 300px;" th:src="@{/static/assets/static/images/qiyiboshi.jpg}"/>
     </div>
 </section>
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" th:src="@{static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{static/assets/lib/layer/2.4/layer.js}"></script>
-<script type="text/javascript" th:src="@{static/assets/static/h-ui/js/H-ui.js}"></script>
-<script type="text/javascript" th:src="@{static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/lib/layer/2.4/layer.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui/js/H-ui.js}"></script>
+<script type="text/javascript" th:src="@{/static/assets/static/h-ui.admin/js/H-ui.admin.page.js}"></script>
 
 <!--/_footer /作为公共模版分离出去-->
 <script type="text/javascript">

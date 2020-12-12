@@ -33,13 +33,13 @@ public class OwnerServiceImpl implements OwnerService {
         LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
         PUINGUtil.isEmpty("业主管理：手机号不能为空！！！",phone);
         PUINGUtil.isEmpty("业主管理：密码不能为空！！！",password);
-        wrapper.eq(Owner::getName,phone);
+        wrapper.eq(Owner::getPhone,phone);
         List<Owner> owners = ownerMapper.selectList(wrapper);
         if(owners==null || owners.size()<=0){
             throw new ParameterException("该手机号查询不到业主信息：null ,手机号:"+phone);
         }
         for (Owner o: owners) {
-            if(o.getPassword().equals(password)){
+            if(o.getPassword().equals(password)&&o.getPhone().equals(phone)){
                 owner=o;
             }
         }

@@ -4,7 +4,7 @@
 <header th:fragment="header" class="navbar-wrapper">
     <div class="navbar navbar-black">
         <div class="container cl">
-            <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">小区物业系统业主端</a>
+            <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/owner/index">小区物业系统业主端</a>
             <nav class="nav navbar-nav nav-collapse" role="navigation" id="Hui-navbar">
                 <ul class="cl">
                     <li class="current"></li>
@@ -12,26 +12,26 @@
                     <li class="dropDown dropDown_hover"><a href="#" class="dropDown_A"><i
                             class="Hui-iconfont">&#xe665;</i> 查询管理</a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a><span onclick="myInfo('个人信息','/owner/base/myInfo/4','500','300')"><i class="Hui-iconfont">&#xe62c;</i> 个人信息</span></a></li>
-                            <li><a><span onclick="myInfo('所有资产','/owner/base/myAsset/4','800','500')"><i class="Hui-iconfont">&#xe625;</i> 所有资产</span></a></li>
-                            <li><a><span onclick="myInfo('缴费信息','/owner/base/myFee/4','1000','600')"><i class="Hui-iconfont">&#xe63a;</i> 缴费信息</span></a></li>
+                            <li><a><span th:onclick="|javascript:myInfo('个人信息','/owner/base/myInfo/${session.owner.getId()}','500','300')|"><i class="Hui-iconfont">&#xe62c;</i> 个人信息</span></a></li>
+                            <li><a><span th:onclick="|javascript:myInfo('所有资产','/owner/base/myAsset/${session.owner.getId()}','800','500')|"><i class="Hui-iconfont">&#xe625;</i> 所有资产</span></a></li>
+                            <li><a><span th:onclick="|javascript:myInfo('缴费信息','/owner/base/myFee/${session.owner.getId()}','1000','600')|"><i class="Hui-iconfont">&#xe63a;</i> 缴费信息</span></a></li>
                         </ul>
                     </li>
                     <li class="dropDown dropDown_hover"><a href="#" class="dropDown_A"><i
                             class="Hui-iconfont">&#xe63c;</i> 维修管理</a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="/owner/repair/doList/4"><i class="Hui-iconfont">&#xe687;</i> 维修列表</a></li>
+                            <li><a th:href="@{'/owner/repair/doList/'+${session.owner.getId()}}"><i class="Hui-iconfont">&#xe687;</i> 维修列表</a></li>
                         </ul>
                     </li>
-                    <li><a><span onclick="myInfo('修改密码','/owner/base/doUpdatePassword/4','600','400')"><i class="Hui-iconfont">&#xe63f;</i> 修改密码</span></a></li>
+                    <li><a><span th:onclick="|javascript:myInfo('修改密码','/owner/base/doUpdatePassword/${session.owner.getId()}','600','400')|"><i class="Hui-iconfont">&#xe63f;</i> 修改密码</span></a></li>
                 </ul>
             </nav>
             <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
                 <ul class="cl">
                     <li>业主</li>
-                    <li class="dropDown dropDown_hover"><a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+                    <li class="dropDown dropDown_hover"><a class="dropDown_A"><span  th:text="${session.owner.getName()}"></span><i class="Hui-iconfont">&#xe6d5;</i></a>
                         <ul class="dropDown-menu menu radius box-shadow">
-                            <li><a href="#">退出</a></li>
+                            <li><a href="/logout">退出</a></li>
                         </ul>
                     </li>
                     <li id="Hui-skin" class="dropDown right dropDown_hover"><a href="javascript:;" class="dropDown_A"

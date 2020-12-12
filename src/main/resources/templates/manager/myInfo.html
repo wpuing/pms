@@ -8,13 +8,13 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="Bookmark" href="../../static/assets/favicon.ico">
-    <link rel="Shortcut Icon" href="../../static/assets/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui/css/H-ui.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/static/h-ui.admin/css/style.css}"/>
+    <link rel="Bookmark" th:href="@{/static/assets/favicon.ico}">
+    <link rel="Shortcut Icon" th:href="@{/static/assets/favicon.ico}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui/css/H-ui.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/css/H-ui.admin.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/lib/Hui-iconfont/1.0.8/iconfont.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/skin/default/skin.css}" id="skin"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/assets/static/h-ui.admin/css/style.css}"/>
     <!--/meta 作为公共模版分离出去-->
 
     <title>个人信息</title>
@@ -22,7 +22,7 @@
 <body>
 <h3 style="text-align: center">个人信息</h3>
 <hr/>
-<div style="width: 200px;height:300px;margin: 0 auto">
+<div style="width: 300px;height:300px;margin: 0 auto">
     编号：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.id}"></strong><br/>
     账号：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.account}"></strong><br/>
     名称：&nbsp;&nbsp;&nbsp;<strong th:text="${emp.name}"></strong><br/>

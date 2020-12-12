@@ -2,6 +2,7 @@ package com.wyz.pms.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.wyz.pms.common.exception.ParameterException;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.core.mapper.EmployeeMapper;
 import com.wyz.pms.core.pojo.Employee;
@@ -55,6 +56,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Integer id) {
         PUINGUtil.notNullByZero(id, "员工编号不能为空或者小于等于0");
         return employeeMapper.selectById(id);
+    }
+
+    @Override
+    public Employee find(String account, String password) {
+        PUINGUtil.isEmpty("员工管理：账号不能为空！！！",account);
+        PUINGUtil.isEmpty("员工管理：密码不能为空！！！",password);
+        LambdaQueryWrapper<Employee> wrapper = Wrappers.<Employee>lambdaQuery();
+        Employee employee = null;
+        List<Employee> list = employeeMapper.selectList(wrapper);
+        if(list==null || list.size()<=0){
+            throw new ParameterException("该账号查询不到员工信息：null ,账号:"+account);
+        }
+        for (Employee e:list) {
+            if(e.getPassword().equals(password)&&e.getAccount().equals(account)){
+                employee=e;
+            }
+        }
+        return employee;
     }
 
 

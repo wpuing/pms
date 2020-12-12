@@ -23,5 +23,7 @@ public interface EmployeeService {
 
     Employee findById(Integer id);
 
+    Employee find(String account,String password);
+
     List<Employee> find(String startTime,String endTime,Employee employee,Integer sort);
 }
