@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Owner implements Serializable {
     /**
@@ -40,6 +40,13 @@ public class Owner implements Serializable {
      */
     @NotNull(message = "业主性别不能为空")
     private String sex;
+
+    /**
+     * 年龄
+     */
+    @NotNull(message = "业主年龄不能为空")
+    @Range(min = 18,max=120,message = "年龄必须在18岁-120岁之间")
+    private Integer age;
 
     /**
      * 注册日期
@@ -95,6 +102,14 @@ public class Owner implements Serializable {
         this.sex = sex == null ? null : sex.trim();
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -122,6 +137,7 @@ public class Owner implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", password=").append(password);
         sb.append(", sex=").append(sex);
+        sb.append(", age=").append(age);
         sb.append(", createTime=").append(createTime);
         sb.append(", deleted=").append(deleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);

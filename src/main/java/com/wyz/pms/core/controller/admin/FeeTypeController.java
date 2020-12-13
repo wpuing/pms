@@ -29,7 +29,6 @@ public class FeeTypeController {
     @RequestMapping("/list")
     public String find(FeeType feeType,Integer sort, Model model){
         List<FeeType> list = feeTypeService.find(feeType,sort);
-        list.forEach(System.out::println);
         model.addAttribute("feeTypeList", list);
         return "/manager/fee-type-list.html";
     }

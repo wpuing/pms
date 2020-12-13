@@ -31,7 +31,6 @@ public class RepairController {
                        String resolveStartTime, String resolveEndTime, Repair repair, Integer sort, Model model) {
         List<RepairVo> list = repairService.find(createStartTime, createEndTime, resolveStartTime, resolveEndTime, repair, sort);
         model.addAttribute("repairList", list);
-        list.forEach(System.out::println);
         return "/manager/repair-list.html";
     }
 

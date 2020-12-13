@@ -59,6 +59,7 @@
 					<option value="女">女</option>
 				</select>
 				</span>
+                    <input type="text" class="input-text" style="width:90px" placeholder="年龄" id="age" name="age">
                     <span class="select-box" style="width:75px">
 				<select class="select" name="sort" size="1">
 					<option value="0" selected>倒序</option>
@@ -77,7 +78,7 @@
             <table class="table table-border table-bordered table-bg">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="9">业主列表</th>
+                    <th scope="col" colspan="7">业主列表</th>
                 </tr>
                 <tr class="text-c">
 
@@ -85,6 +86,7 @@
                     <th width="150">手机号</th>
                     <th width="90">姓名</th>
                     <th width="50">性别</th>
+                    <th width="50">年龄</th>
                     <th width="130">注册时间</th>
                     <th width="100">操作</th>
                 </tr>
@@ -96,6 +98,7 @@
                     <td th:text="${owner.phone}"></td>
                     <td th:text="${owner.name}"></td>
                     <td th:text="${owner.sex}"></td>
+                    <td th:text="${owner.age}"></td>
                     <td th:text="${#temporals.format(owner.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td class="td-manage"><a title="编辑" href="javascript:;"
                                              th:onclick="|javascript:admin_edit('员工编辑','/admin/owner/doUpdate?id=${owner.id}','1','800','500')|" class="ml-5"

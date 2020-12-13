@@ -25,7 +25,6 @@ public class ParkingController {
     @RequestMapping("/list")
     public String find(BigDecimal startPrice, BigDecimal endPrice, Parking parking, Integer sort, Model model){
         List<ParkingVo> list = parkingService.find(startPrice,endPrice,parking,sort);
-        list.forEach(System.out::println);
         model.addAttribute("parkingList", list);
         return "/manager/parking-list.html";
     }

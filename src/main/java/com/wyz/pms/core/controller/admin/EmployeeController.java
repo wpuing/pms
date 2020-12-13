@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -59,13 +60,13 @@ public class EmployeeController {
 
     @ResponseBody
     @RequestMapping("/add")
-    public Result add(Employee employee) {
+    public Result add(@Valid Employee employee) {
         return PMSUtil.result(employeeService.insert(employee),"添加");
     }
 
     @ResponseBody
     @RequestMapping("/update")
-    public Result update(Employee employee){
+    public Result update(@Valid Employee employee){
         return PMSUtil.result(employeeService.update(employee),"修改");
     }
 

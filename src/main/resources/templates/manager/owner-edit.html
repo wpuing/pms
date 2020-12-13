@@ -49,6 +49,13 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="password" id="password" th:field="${owner.password}"/>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:field="${owner.age}" placeholder="" id="age" name="age">
+            </div>
+        </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
                 <input class="btn btn-primary radius" onclick="update()" type="button"
@@ -72,6 +79,7 @@
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
     function update() {
+
         //得到表单数据，序列化表单
         var employee = $("#form-admin-add").serialize();
         //使用ajax post提交方式 ，默认json数据

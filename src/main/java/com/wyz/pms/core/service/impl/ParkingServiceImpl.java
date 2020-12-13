@@ -70,10 +70,8 @@ public class ParkingServiceImpl implements ParkingService {
             wrapper.orderByDesc(Parking::getId);
         }
         List<Parking> parkings = parkingMapper.selectList(wrapper);
-        System.out.println(" parkings"+parkings);
         if(parkings!=null && parkings.size()>0){//存在车位
             for (Parking pk:parkings) {
-                System.out.println(" pk"+pk);
                 ParkingVo parkingVo = new ParkingVo();//创建组合对象
                 BeanUtils.copyProperties(pk,parkingVo);//拷贝
                 Owner owner = clickOwner(pk);//检查是否存在该用户
@@ -91,6 +89,10 @@ public class ParkingServiceImpl implements ParkingService {
         clickOwner(parking);//存在用户则校验是否存在
         PMSUtil.clickStatusAnOwnerId(parking.getOwnerId(),parking.getStatus(),true);//校验参数
         PMSUtil.clickStatusAnOwnerId(parking.getStatus(),parking.getOwnerId(),false);
+        Parking parking1 = findByNumber(parking.getNumber());
+        if(parking1!=null){
+            throw new ParameterException("该编号存在车位信息，添加失败，编号id为："+parking1.getId());
+        }
         return parkingMapper.insert(parking);
     }
 
@@ -99,6 +101,10 @@ public class ParkingServiceImpl implements ParkingService {
         clickOwner(parking);//存在用户则校验是否存在
         PMSUtil.clickStatusAnOwnerId(parking.getOwnerId(),parking.getStatus(),true);
         PMSUtil.clickStatusAnOwnerId(parking.getStatus(),parking.getOwnerId(),false);
+        Parking parking1 = findByNumber(parking.getNumber());
+        if(parking1!=null && parking1.getId()!=parking.getId()){
+            throw new ParameterException("该编号存在车位信息，修改失败，编号id为："+parking1.getId());
+        }
         return parkingMapper.updateById(parking);
     }
 
@@ -119,6 +125,16 @@ public class ParkingServiceImpl implements ParkingService {
                 throw new PermissionException("添加车位失败，该用户不存在！id："+parking.getOwnerId());
             }
             return owner;
+        }
+        return null;
+    }
+
+    private Parking findByNumber(String number){
+        LambdaQueryWrapper<Parking> wrapper = Wrappers.<Parking>lambdaQuery();
+        wrapper.eq(Parking::getNumber,number);
+        List<Parking> list = parkingMapper.selectList(wrapper);
+        if(list!=null && list.size()>0){
+            return list.get(0);
         }
         return null;
     }

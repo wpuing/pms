@@ -64,7 +64,6 @@ public class FacilityServiceImpl implements FacilityService {
     @Override
     public int update(Facility facility) {
         //当使用时间为空并且设置为已使用才会设置使用时间
-        System.out.println("数据： "+facility);
         if (facility != null && facility.getStartTime()==null&&facility.getStatus().equals("已使用")) {
             facility.setStartTime(LocalDateTime.now());
         }

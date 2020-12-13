@@ -16,8 +16,6 @@ public interface OwnerService {
 
     Owner findByPhone(String phone,String password);
 
-    Owner findByName(String name);
-
     List<Owner> find(String startTime,String endTime,Owner owner,Integer sort);
 
     int insert(Owner owner);

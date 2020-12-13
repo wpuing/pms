@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -46,13 +47,13 @@ public class OwnerController {
 
     @ResponseBody
     @RequestMapping("/add")
-    public Result add(Owner owner) {
+    public Result add(@Valid Owner owner) {
         return PMSUtil.result(ownerService.insert(owner),"添加");
     }
 
     @ResponseBody
     @RequestMapping("/update")
-    public Result update(Owner owner){
+    public Result update(@Valid Owner owner){
         return PMSUtil.result(ownerService.update(owner),"修改");
     }
 

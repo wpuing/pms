@@ -39,7 +39,6 @@ public class FeeController {
         List<FeeType> feeTypes = feeTypeService.find(null, 1);
         model.addAttribute("feeTypeList", feeTypes);
         model.addAttribute("feeList", list);
-        list.forEach(System.out::println);
         return "/manager/fee-list.html";
     }
 
@@ -49,7 +48,6 @@ public class FeeController {
         List<FeeType> feeTypes = feeTypeService.find(null, 1);
         model.addAttribute("feeTypeList", feeTypes);
         model.addAttribute("feeTypeMoneyList", list);
-        list.forEach(System.out::println);
         return "/manager/fee-type-money-list.html";
     }
 
@@ -61,8 +59,6 @@ public class FeeController {
         detailVos.add(new FeeDetailVo(PMSConstant.NOT_FEE,list1));
         detailVos.add(new FeeDetailVo(PMSConstant.FEE,list2));
         model.addAttribute("detailListVos", detailVos);
-        list1.forEach(System.out::println);
-        list2.forEach(System.out::println);
         return "/manager/fee-detail.html";
     }
 

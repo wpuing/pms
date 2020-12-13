@@ -23,6 +23,7 @@
 <article class="cl pd-20">
     <form class="form form-horizontal" id="form-admin-add">
         <input type="hidden" name="id" id="id" th:field="${emp.id}"/>
+        <input type="hidden" name="password" id="password" th:field="${emp.password}"/>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>账号：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -48,6 +49,12 @@
                     <input th:checked="${emp.sex} eq '女'" type="radio" id="sex-2" name="sex" value="女">
                     <label for="sex-2">女</label>
                 </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>年龄：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" placeholder="" th:field="${emp.age}" id="age" name="age">
             </div>
         </div>
         <div class="row cl">

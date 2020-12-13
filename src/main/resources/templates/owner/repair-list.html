@@ -34,7 +34,7 @@
 </nav>
 <div class="Hui-article">
     <article class="cl pd-20" style="margin-top: 50px;">
-        <form action="/owner/repair/doList/4" method="post">
+        <form action="/owner/repair/list" method="post">
             <div class="text-c">
                 <input type="text" class="input-text" style="width:120px" placeholder="编号" id="id"
                        name="id">
@@ -44,8 +44,7 @@
                        name="site">
                 <input type="text" class="input-text" style="width:150px" placeholder="原因" id="reason"
                        name="reason">
-                <input type="hidden" id="ownerId" name="ownerId" value="4">
-                
+                <input type="hidden" id="ownerId" name="ownerId" th:value="${session.owner.getId()}">
                 <input type="text" class="input-text" style="width:130px" placeholder="处理人" id="employeeName"
                        name="employeeName">
                 <span class="select-box" style="width:90px">

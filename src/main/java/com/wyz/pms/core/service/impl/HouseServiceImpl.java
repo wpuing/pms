@@ -2,6 +2,7 @@ package com.wyz.pms.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.wyz.pms.common.exception.ParameterException;
 import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.PMSUtil;
 import com.wyz.pms.common.util.PUINGUtil;
@@ -96,6 +97,10 @@ public class HouseServiceImpl implements HouseService {
         clickOwner(house);//校验用户id
         PMSUtil.clickStatusAnOwnerId(house.getOwnerId(),house.getStatus(),true);//校验参数
         PMSUtil.clickStatusAnOwnerId(house.getStatus(),house.getOwnerId(),false);
+        House house1 = findByNumber(house.getNumber());
+        if(house1!=null){
+            throw new ParameterException("该编号所属房产已存在！！！ id："+house1.getNumber());
+        }
         return houseMapper.insert(house);
     }
 
@@ -104,6 +109,10 @@ public class HouseServiceImpl implements HouseService {
         clickOwner(house);//校验用户id
         PMSUtil.clickStatusAnOwnerId(house.getOwnerId(),house.getStatus(),true);//校验参数
         PMSUtil.clickStatusAnOwnerId(house.getStatus(),house.getOwnerId(),false);
+        House house1 = findByNumber(house.getNumber());
+        if(house1!=null && house1.getId()!=house.getId()){
+            throw new ParameterException("该编号所属房产已存在！！！修改失败 id："+house1.getNumber());
+        }
         return houseMapper.updateById(house);
     }
 
@@ -124,6 +133,16 @@ public class HouseServiceImpl implements HouseService {
                 throw new PermissionException("添加房产失败，该用户不存在！id："+house.getOwnerId());
             }
             return owner;
+        }
+        return null;
+    }
+
+    private House findByNumber(String number){
+        LambdaQueryWrapper<House> wrapper = Wrappers.<House>lambdaQuery();
+        wrapper.eq(House::getNumber,number);
+        List<House> list = houseMapper.selectList(wrapper);
+        if(list!=null && list.size()>0){
+            return list.get(0);
         }
         return null;
     }

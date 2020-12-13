@@ -22,6 +22,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 "/static/**/*.js",              //js静态资源
                 "/static/**/*.css",             //css静态资源
                 "/static/**/*.ico",
+                "/static/**/*.jpg",
                 "/static/**/*.ttf"
         );
     }

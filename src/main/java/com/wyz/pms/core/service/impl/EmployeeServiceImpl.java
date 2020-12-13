@@ -23,12 +23,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int insert(Employee employee) {
         employee.setCreateTime(LocalDateTime.now());
         employee.setDeleted(0);
+        Employee employee1 = findByAccount(employee.getAccount());
+        if (!PUINGUtil.isMobile(employee.getPhone())) {
+            throw new ParameterException("员工管理： 员工手机号错误或者格式错误， 参数：" + employee.getPhone());
+        }
+        if (employee1!=null){
+            throw new ParameterException("该编号所属用户已存在！！！ 编号："+employee.getAccount());
+        }
         return employeeMapper.insert(employee);
     }
 
     @Override
     public int update(Employee employee) {
-
+        if (!PUINGUtil.isMobile(employee.getPhone())) {
+            throw new ParameterException("员工管理： 员工手机号错误或者格式错误， 参数：" + employee.getPhone());
+        }
+        Employee employee1 = findByAccount(employee.getAccount());
+        if (employee1!=null && employee1.getId()!=employee.getId()){
+            //当查询出该编号号存在员工，且id与要修改的员工id不一致则为重复编号
+            throw new ParameterException("该编号所属用户已存在！！！ 编号id："+employee.getId());
+        }
         return employeeMapper.updateById(employee);
     }
 
@@ -90,6 +104,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (PUINGUtil.isEmpty(employee.getSex())) {//性别
                 wrapper.like(Employee::getSex, employee.getSex());
             }
+            if (PUINGUtil.isEmpty(employee.getAge())) {//年龄
+                wrapper.like(Employee::getAge, employee.getAge());
+            }
             if (PUINGUtil.isEmpty(employee.getPhone())) {//手机号
                 wrapper.like(Employee::getPhone, employee.getPhone());
             }
@@ -111,5 +128,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.selectList(wrapper);
     }
 
+    private Employee findByAccount(String account){
+        LambdaQueryWrapper<Employee> wrapper = Wrappers.<Employee>lambdaQuery();
+        wrapper.eq(Employee::getAccount,account);
+        List<Employee> list = employeeMapper.selectList(wrapper);
+        if(list!=null && list.size()>0){
+            return list.get(0);//存在则取第一条
+        }
+        return null;
+    }
 
 }

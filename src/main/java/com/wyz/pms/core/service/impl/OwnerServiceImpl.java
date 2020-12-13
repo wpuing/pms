@@ -3,10 +3,8 @@ package com.wyz.pms.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.wyz.pms.common.exception.ParameterException;
-import com.wyz.pms.common.exception.PermissionException;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.core.mapper.OwnerMapper;
-import com.wyz.pms.core.pojo.Employee;
 import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,18 +45,6 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Owner findByName(String name) {
-        LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
-        PUINGUtil.isEmpty("业主管理：查询的业主名不能为空！！！",name);
-        wrapper.eq(Owner::getName,name);
-        Owner owner = ownerMapper.selectOne(wrapper);
-        if(owner==null){
-            throw new ParameterException("该姓名查询不到业主信息：null ,姓名:"+name);
-        }
-        return owner;
-    }
-
-    @Override
     public List<Owner> find(String startTime,String endTime,Owner owner,Integer sort) {
         LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
         if (owner != null) {
@@ -67,6 +53,9 @@ public class OwnerServiceImpl implements OwnerService {
             }
             if (PUINGUtil.isEmpty(owner.getSex())) {//性别
                 wrapper.like(Owner::getSex, owner.getSex());
+            }
+            if (PUINGUtil.isEmpty(owner.getAge())) {//年龄
+                wrapper.like(Owner::getAge, owner.getAge());
             }
             if (PUINGUtil.isEmpty(owner.getPhone())) {//手机号
                 wrapper.like(Owner::getPhone, owner.getPhone());
@@ -90,12 +79,20 @@ public class OwnerServiceImpl implements OwnerService {
     public int insert(Owner owner) {
         owner.setCreateTime(LocalDateTime.now());
         owner.setDeleted(0);
+        Owner owner1 = findByPhone(owner.getPhone());
+        if (owner1!=null){
+            throw new ParameterException("该手机号所属用户已存在！！！ 手机号："+owner.getPhone());
+        }
         return ownerMapper.insert(owner);
     }
 
     @Override
     public int update(Owner owner) {
-
+        Owner owner1 = findByPhone(owner.getPhone());
+        if (owner1!=null && owner.getId()!=owner1.getId()){
+            //当查询出该手机号存在用户，且id与要修改的业主id不一致则为重复手机号
+            throw new ParameterException("该手机号所属用户已存在！！！ 编号："+owner1.getId());
+        }
         return ownerMapper.updateById(owner);
     }
 
@@ -117,5 +114,20 @@ public class OwnerServiceImpl implements OwnerService {
     public int delete(Integer id) {
         PUINGUtil.notNullByZero(id, "员工编号不能为空或者小于等于0");
         return ownerMapper.deleteById(id);
+    }
+
+
+    private Owner findByPhone(String phone) {
+        PUINGUtil.isEmpty("业主管理：查询的业主手机号不能为空！！！",phone);
+        if (!PUINGUtil.isMobile(phone)) {
+            throw new ParameterException("业主管理： 业主手机号错误或者格式错误， 参数：" + phone);
+        }
+        LambdaQueryWrapper<Owner> wrapper = Wrappers.<Owner>lambdaQuery();
+        wrapper.eq(Owner::getPhone,phone);
+        List<Owner> list = ownerMapper.selectList(wrapper);
+        if(list!=null && list.size()>0){
+            return list.get(0);
+        }
+        return null;
     }
 }
