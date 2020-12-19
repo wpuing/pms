@@ -41,7 +41,13 @@
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 			</div>
 		</div>
-
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">图片名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" id="picture1" name="picture1" disabled>
+				<input type="hidden" class="input-text" id="picture" name="picture">
+			</div>
+		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
@@ -54,6 +60,16 @@
 					<input  type="radio" id="sex-2" name="status" value="已使用">
 					<label for="sex-2">已使用</label>
 				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">图片：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<!--<input type="file" class="input-text" placeholder="" id="file" name="file">-->
+				<form enctype="multipart/form-data" id="uploadForm">
+					<input type='file' name='file' id='pic_img'/>
+					<input type='button' onclick='upload()' value='点击上传'/>
+				</form>
 			</div>
 		</div>
 		<div class="row cl">
@@ -94,6 +110,31 @@
 				alert('添加失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
 			}
 		});
+	}
+
+	function upload(){
+		var formData = new FormData($("#uploadForm")[0])  //创建一个forData
+		formData.append('file', $('#pic_img')[0].files[0]) //把file添加进去  name命名为img
+		$.ajax({
+			url: "http://localhost:8380/file/upload",
+			data: formData,
+			type: "POST",
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) {
+				if(data.code=='200'){
+					$("#picture").val(data.data);
+					$("#picture1").val(data.data);
+				}else {
+					alert("上传图片失败："+data.message);
+				}
+			},
+			error: function(data) {
+				alert("上传图片失败："+data.message);
+			}
+		})
 	}
 
 </script>

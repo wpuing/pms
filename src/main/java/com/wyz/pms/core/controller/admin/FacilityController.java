@@ -47,13 +47,14 @@ public class FacilityController {
 
     @ResponseBody
     @RequestMapping("/add")
-    public Result add(@Valid Facility facility) {
+    public Result add( @Valid Facility facility) {
         return PMSUtil.result(facilityService.insert(facility),"添加");
     }
 
     @ResponseBody
     @RequestMapping("/update")
     public Result update(@Valid Facility facility){
+
         return PMSUtil.result(facilityService.update(facility),"修改");
     }
 

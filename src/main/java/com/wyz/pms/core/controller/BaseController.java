@@ -11,12 +11,18 @@ import com.wyz.pms.core.service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 
 /**
@@ -50,8 +56,9 @@ public class BaseController {
         return "/login.html";
     }
 
+    @ResponseBody
     @RequestMapping("/doLogin")
-    public String doLogin(String username, String password, String role, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public Result doLogin(String username, String password, String role, HttpServletRequest request, HttpServletResponse response, Model model) {
         Employee employee = null;
         Owner owner = null;
         if(!PUINGUtil.isEmpty(role)){
@@ -65,16 +72,19 @@ public class BaseController {
             isLogin(employee);
             request.getSession().setAttribute("emp",employee);//存入会话
             request.getSession().setAttribute("username",employee.getName());//存入会话
-            return "/manager/index.html";
+            //return "/manager/index.html";
+            return ResultGenerator.genSuccessResult("/admin/index");
         }
         if(role.equals("OWNER")){//业主
             owner = ownerService.findByPhone(username,password);
             isLogin(owner);
             request.getSession().setAttribute("owner",owner);//存入会话
             request.getSession().setAttribute("username",owner.getName());//存入会话
-            return "/owner/index.html";
+            //return "/owner/index.html";
+            return ResultGenerator.genSuccessResult("/owner/index");
         }
-        return "/login.html";
+        //return "/login.html";
+        return ResultGenerator.genSuccessResult("/login");
     }
 
 
@@ -89,5 +99,50 @@ public class BaseController {
         if(object==null){
             throw new ParameterException("登录失败！，信息不存在！");
         }
+    }
+
+
+    /**
+     * @Title: upload
+     * @Description: 单文件上传
+     * @param file 文件信息
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/file/upload")
+    public Result upload(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResultGenerator.genFailResult("文件为空");
+            }
+            // 获取文件名
+            String fileName = file.getOriginalFilename();
+            // 获取文件的后缀名
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            // 设置文件存储路径
+            //String filePath = "D:\\CodeSpace\\Java\\Test\\file\\one_to_pick\\";
+            String fName = UUID.randomUUID().toString().replace("-", "");
+            //String filePath = "/usr/etc/images/";
+            String filePath = "D:\\CodeSpace\\Java\\Test\\image\\";
+            String path = filePath + fName + suffixName;
+            System.out.println("文件名+后缀："+fileName);
+            System.out.println("文件后缀名："+suffixName);
+            System.out.println("文件大小："+file.getSize());
+            System.out.println("文件路径："+filePath);
+            System.out.println("文件最终路径："+path);
+            File dest = new File(path);
+            // 检测是否存在目录
+            if (!dest.getParentFile().exists()) {
+                dest.getParentFile().mkdirs();// 新建文件夹
+            }
+            file.transferTo(dest);// 文件写入
+            String imgName = fName + suffixName;
+            return ResultGenerator.genSuccessResult(imgName);//名称
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultGenerator.genFailResult("上传失败");
     }
 }

@@ -32,7 +32,14 @@ public class Facility implements Serializable {
     /**
      * 地点
      */
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
     private String site;
+
+    /**
+     * 图片
+     */
+    @TableField(strategy = FieldStrategy.IGNORED)//设置为IGNORE，不过滤null
+    private String picture;
 
     /**
      * 使用日期
@@ -79,6 +86,14 @@ public class Facility implements Serializable {
         this.site = site;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -105,6 +120,7 @@ public class Facility implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", count=").append(count);
         sb.append(", site=").append(site);
+        sb.append(", picture=").append(picture);
         sb.append(", startTime=").append(startTime);
         sb.append(", status=").append(status);
         sb.append(", serialVersionUID=").append(serialVersionUID);

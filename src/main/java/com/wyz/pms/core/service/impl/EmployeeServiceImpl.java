@@ -6,6 +6,7 @@ import com.wyz.pms.common.exception.ParameterException;
 import com.wyz.pms.common.util.PUINGUtil;
 import com.wyz.pms.core.mapper.EmployeeMapper;
 import com.wyz.pms.core.pojo.Employee;
+import com.wyz.pms.core.pojo.Owner;
 import com.wyz.pms.core.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!PUINGUtil.isMobile(employee.getPhone())) {
             throw new ParameterException("员工管理： 员工手机号错误或者格式错误， 参数：" + employee.getPhone());
         }
+        Employee employee2 = findByPhone(employee.getPhone());
+        if (employee2!=null && employee.getId()!=employee2.getId()){
+            //当查询出该手机号存在用户，且id与要修改的业主id不一致则为重复手机号
+            throw new ParameterException("该手机号所属用户已存在！！！ 编号："+employee2.getId());
+        }
         if (employee1!=null){
             throw new ParameterException("该编号所属用户已存在！！！ 编号："+employee.getAccount());
         }
@@ -35,8 +41,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int update(Employee employee) {
+
         if (!PUINGUtil.isMobile(employee.getPhone())) {
             throw new ParameterException("员工管理： 员工手机号错误或者格式错误， 参数：" + employee.getPhone());
+        }
+        Employee employee2 = findByPhone(employee.getPhone());
+        if (employee2!=null && employee.getId()!=employee2.getId()){
+            //当查询出该手机号存在用户，且id与要修改的业主id不一致则为重复手机号
+            throw new ParameterException("该手机号所属用户已存在！！！ 编号："+employee2.getId());
         }
         Employee employee1 = findByAccount(employee.getAccount());
         if (employee1!=null && employee1.getId()!=employee.getId()){
@@ -138,4 +150,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    private Employee findByPhone(String phone) {
+        PUINGUtil.isEmpty("员工管理：查询的业主手机号不能为空！！！",phone);
+        if (!PUINGUtil.isMobile(phone)) {
+            throw new ParameterException("员工管理： 员工手机号错误或者格式错误， 参数：" + phone);
+        }
+        LambdaQueryWrapper<Employee> wrapper = Wrappers.<Employee>lambdaQuery();
+        wrapper.eq(Employee::getPhone,phone);
+        List<Employee> list = employeeMapper.selectList(wrapper);
+        if(list!=null && list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
 }

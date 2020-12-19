@@ -15,7 +15,7 @@ spring:
     resources:
        static-locations:
           - classpath:/static/
-#          - file:D:\\Code space\\Java\\Test\\file\\sm
+          - file:D:\CodeSpace\Java\Test\image\
    
 logging:
   level:
@@ -55,4 +55,4 @@ mybatis-plus:
       
 ##mail.fromMail.addr: 865230476@qq.com
      
-##login  http://localhost:8182/doLogin
+##login  http://localhost:8380/login

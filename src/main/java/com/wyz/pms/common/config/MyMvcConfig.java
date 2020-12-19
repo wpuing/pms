@@ -18,11 +18,13 @@ public class MyMvcConfig implements WebMvcConfigurer {
                 "/login",            //登录
                 "/doLogin/**",            //登录验证
                 "/logout",            //退出
+                "/file/**",            //上传文件
                 "/static/**/*.html",            //html静态资源
                 "/static/**/*.js",              //js静态资源
                 "/static/**/*.css",             //css静态资源
                 "/static/**/*.ico",
                 "/static/**/*.jpg",
+                "/static/**/*.png",
                 "/static/**/*.ttf"
         );
     }

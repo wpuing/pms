@@ -35,7 +35,13 @@
                 <input type="text" class="input-text" th:field="${facility.count}" placeholder="" id="count" name="count">
             </div>
         </div>
-
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">图片名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" th:field="${facility.picture}" id="picture1" name="picture1" disabled>
+                <input type="hidden" class="input-text" th:field="${facility.picture}" id="picture" name="picture">
+            </div>
+        </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>是否启用：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
@@ -54,6 +60,15 @@
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="site" cols="" th:field="${facility.site}" rows="" class="textarea"  placeholder="设施的地点...200个字符以内" dragonfly="true" onKeyUp="textarealength(this,200)"></textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3">图片：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <form enctype="multipart/form-data" id="uploadForm">
+                    <input type='file' name='file' id='pic_img'/>
+                    <input type='button' onclick='upload()' value='点击上传'/>
+                </form>
             </div>
         </div>
         <div class="row cl">
@@ -78,6 +93,33 @@
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
 <script type="text/javascript" th:src="@{/static/assets/lib/jquery.validation/1.14.0/messages_zh.js}"></script>
 <script type="text/javascript">
+
+    function upload(){
+        var formData = new FormData($("#uploadForm")[0])  //创建一个forData
+        formData.append('file', $('#pic_img')[0].files[0]) //把file添加进去  name命名为img
+        $.ajax({
+            url: "http://localhost:8380/file/upload",
+            data: formData,
+            type: "POST",
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                if(data.code=='200'){
+                    $("#picture").val(data.data);
+                    $("#picture1").val(data.data);
+                }else {
+                    alert("上传图片失败："+data.message);
+                }
+            },
+            error: function(data) {
+                alert("上传图片失败："+data.message);
+            }
+        })
+    };
+
+
     function update() {
         //得到表单数据，序列化表单
         var employee = $("#form-admin-add").serialize();
@@ -95,8 +137,7 @@
                 alert('修改失败！！！！,响应码：' + data.code + " ,消息：" + data.message);
             }
         });
-    }
-
+    };
 
 </script>
 <!--/请在上方写此页面业务相关的脚本-->

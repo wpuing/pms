@@ -31,6 +31,9 @@ public class FacilityServiceImpl implements FacilityService {
             if (facility.getCount() != null && facility.getCount() > 0) {//数量
                 wrapper.eq(Facility::getCount, facility.getCount());
             }
+            if (PUINGUtil.isEmpty(facility.getStatus())) {//状态
+                wrapper.like(Facility::getStatus, facility.getStatus());
+            }
         }
         if (PUINGUtil.isEmpty(startTime)) {//开始
             wrapper.apply("date_format(start_time,'%Y-%m-%d')>={0}", startTime);
