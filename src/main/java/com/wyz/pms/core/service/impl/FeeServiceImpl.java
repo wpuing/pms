@@ -159,7 +159,6 @@ public class FeeServiceImpl implements FeeService {
         clickOwner(fee);//校验用户
         clickEmployee(fee);//校验员工
         clickPayTime(fee);
-
         return feeMapper.insert(fee);
     }
 

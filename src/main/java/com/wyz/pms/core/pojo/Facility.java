@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class Facility implements Serializable {
      * 数量
      */
     @NotNull(message = "设施数量不能为空")
+    @Min(value = 1)//大于等于1
     private Integer count;
 
     /**

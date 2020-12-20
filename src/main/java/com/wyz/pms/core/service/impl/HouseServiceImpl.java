@@ -124,7 +124,7 @@ public class HouseServiceImpl implements HouseService {
 
     /***
      * 校验用户是否存在
-     * @param house 车位信息
+     * @param house 房产信息
      */
     private Owner clickOwner(House house){
         if(house !=null && house.getOwnerId() !=null && house.getOwnerId()>0){

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -51,6 +52,7 @@ public class Fee implements Serializable {
      * 业主id
      */
     @NotNull(message = "业主编号不能为空")
+    @Min(value = 1)//大于等于1
     private Integer ownerId;
 
     /**

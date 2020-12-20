@@ -72,7 +72,6 @@ public class BaseController {
             isLogin(employee);
             request.getSession().setAttribute("emp",employee);//存入会话
             request.getSession().setAttribute("username",employee.getName());//存入会话
-            //return "/manager/index.html";
             return ResultGenerator.genSuccessResult("/admin/index");
         }
         if(role.equals("OWNER")){//业主
@@ -80,10 +79,8 @@ public class BaseController {
             isLogin(owner);
             request.getSession().setAttribute("owner",owner);//存入会话
             request.getSession().setAttribute("username",owner.getName());//存入会话
-            //return "/owner/index.html";
             return ResultGenerator.genSuccessResult("/owner/index");
         }
-        //return "/login.html";
         return ResultGenerator.genSuccessResult("/login");
     }
 
@@ -120,16 +117,9 @@ public class BaseController {
             // 获取文件的后缀名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
             // 设置文件存储路径
-            //String filePath = "D:\\CodeSpace\\Java\\Test\\file\\one_to_pick\\";
             String fName = UUID.randomUUID().toString().replace("-", "");
-            //String filePath = "/usr/etc/images/";
             String filePath = "D:\\CodeSpace\\Java\\Test\\image\\";
             String path = filePath + fName + suffixName;
-            System.out.println("文件名+后缀："+fileName);
-            System.out.println("文件后缀名："+suffixName);
-            System.out.println("文件大小："+file.getSize());
-            System.out.println("文件路径："+filePath);
-            System.out.println("文件最终路径："+path);
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
